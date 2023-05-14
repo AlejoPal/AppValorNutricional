@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "682662568436",
+    "project_id": "valornutricionalalimentos",
+    "storage_bucket": "valornutricionalalimentos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682662568436:android:70dd30257122f1943119a1",
+        "android_client_info": {
+          "package_name": "com.aproyectousco.valornutricionalalimentoscolombianos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682662568436-4easntmv8lur1cuj6ru99up95j20r91u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOmdNaFI62MvH5ZxmwXRidciXYASTapGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682662568436-4easntmv8lur1cuj6ru99up95j20r91u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

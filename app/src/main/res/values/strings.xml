@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ValorNutricionalAlimentosColombianos</string>
+
+    <string name="btn_inicarsesion">Iniciar sesion</string>
+    <string name="btn_registrarse">Registrarse</string>
+    <string name="btn_aqui">aqui</string>
+
+    <string name="hintEmail">Email</string>
+    <string name="hintContrasena">Contraseña</string>
+
+</resources>
