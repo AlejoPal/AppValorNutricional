@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +21,8 @@ public class InicarSesion extends AppCompatActivity {
 
     Button btnIrRegistro;
     EditText correo, contrasena;
+
+    TextView IrRegistro;
     private FirebaseAuth mAuth;
 
     @Override
@@ -32,8 +35,8 @@ public class InicarSesion extends AppCompatActivity {
         correo = findViewById(R.id.Emailinicar);
         contrasena = findViewById(R.id.continiciar);
 
-        btnIrRegistro = findViewById(R.id.iraregitro);
-        btnIrRegistro.setOnClickListener(new View.OnClickListener() {
+        IrRegistro = findViewById(R.id.textiraregitro);
+        IrRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InicarSesion.this, Registrar.class);
@@ -55,7 +58,7 @@ public class InicarSesion extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
 
-                    Toast.makeText(InicarSesion.this, "Ingreso Adecuado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InicarSesion.this, "Login", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
                     Intent intent =  new Intent(InicarSesion.this, InformacionGeneral.class);
                     startActivity(intent);

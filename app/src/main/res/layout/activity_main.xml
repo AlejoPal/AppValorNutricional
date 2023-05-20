@@ -13,26 +13,36 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@color/fondo">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textAlignment="center" />
+            android:fontFamily="@font/roboto"
+            android:text="@string/app_nombre"
+            android:textAlignment="center"
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/btninicar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_inicarsesion" />
+            android:fontFamily="@font/roboto"
+            android:text="@string/btn_inicarsesion"
+            android:textColor="@color/white"
+            />
 
         <Button
             android:id="@+id/btnregistrarse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_registrarse" />
+            android:fontFamily="@font/roboto"
+            android:text="@string/btn_registrarse"
+            android:textColor="@color/white" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
