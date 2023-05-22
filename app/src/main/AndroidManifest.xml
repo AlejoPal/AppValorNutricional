@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ValorNutricionalAlimentosColombianos"
         tools:targetApi="31">
         <activity
+            android:name=".AgregarInfo"
+            android:exported="false" />
+        <activity
             android:name=".InformacionGeneral"
             android:exported="false" />
         <activity

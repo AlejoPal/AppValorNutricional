@@ -33,7 +33,7 @@ public class Registrar extends AppCompatActivity {
 
 
     Button btnIrInicio;
-    static EditText correo;
+    static EditText correoR;
     EditText contrasena, confirmar, nombre;
     String idCorreo;
     TextView irIniciar;
@@ -46,7 +46,7 @@ public class Registrar extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         nombre = findViewById(R.id.nombreRegistro);
-        correo = findViewById(R.id.emailpageregistro);
+        correoR = findViewById(R.id.emailpageregistro);
         contrasena = findViewById(R.id.cont1pageregistro);
         confirmar = findViewById(R.id.cont2pageregistro);
 
@@ -70,7 +70,7 @@ public class Registrar extends AppCompatActivity {
     }
     public void registrarUsuario(View view){
         if (contrasena.getText().toString().equals(confirmar.getText().toString())){
-            mAuth.createUserWithEmailAndPassword(correo.getText().toString(), contrasena.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(correoR.getText().toString(), contrasena.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 Date date = new Date();
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -82,12 +82,13 @@ public class Registrar extends AppCompatActivity {
                         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
                         String sfecha = fechaC.format(date);
 
-                        cargarDatosFirebase(nombre.getText().toString(), sfecha, correo.getText().toString().replace(".", ""));
+                        cargarDatosFirebase(nombre.getText().toString(), sfecha, correoR.getText().toString().replace(".", ""));
 
                         //Ir a informacion general cuando inicie Sesion
                         Toast.makeText(Registrar.this, "Login", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent =  new Intent(Registrar.this, InformacionGeneral.class);
+                        intent.putExtra("Correo", correoR.getText().toString().replace(".", ""));
                         startActivity(intent);
                     }else {
 
@@ -106,9 +107,9 @@ public class Registrar extends AppCompatActivity {
         //Parte de fechas
         try {
             Map<String, Object> Diario = new HashMap<>();
-            Diario.put("Desayuno", infoAlimenticia(0,0,0,0,0));
-            Diario.put("Almuerzo", infoAlimenticia(0,0,0,0,0));
-            Diario.put("Cena", infoAlimenticia(0,0,0,0,0));
+            Diario.put("Desayuno", infoAlimenticia(0.0,0.0,0.0,0.0,0.0,0.0,0.0));
+            Diario.put("Almuerzo", infoAlimenticia(0.0,0.0,0.0,0.0,0.0,0.0,0.0));
+            Diario.put("Cena", infoAlimenticia(0.0,0.0,0.0,0.0,0.0,0.0,0.0));
 
             Map<String, Object> datosUsuario = new HashMap<>();
             datosUsuario.put("Nombre", nombre);
@@ -133,20 +134,18 @@ public class Registrar extends AppCompatActivity {
 
     }
 
-    private Object infoAlimenticia(int proteina, int energia, int carbohidratos, int lipidos, int sales){
+    private Object infoAlimenticia(double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
         Map<String, Object> fechas = new HashMap<>();
         fechas.put("Proteina", proteina);
         fechas.put("Energia", energia);
         fechas.put("Carbohidratos", carbohidratos);
         fechas.put("Lipidos", lipidos);
         fechas.put("Sodio", sales);
+        fechas.put("Gsat", gsat);
+        fechas.put("Colesterol", colesterol);
         return fechas;
     }
 
-
-    public class GlobalVariables {
-        public static String idCorreo = correo.getText().toString().replace(".", "");
-    }
 
 
 }

@@ -2,12 +2,27 @@
     <string name="app_name">ValorNutricionalAlimentosColombianos</string>
     <string name="app_nombre">MiNutriCol</string>
 
+
     <string name="btn_inicarsesion">Iniciar sesion</string>
     <string name="btn_registrarse">Registrarse</string>
-    <string name="btn_aqui">aqui</string>
+    <string name="btn_agregarComida">Agregar comida</string>
 
     <string name="hintEmail">Email</string>
     <string name="hintContrasena">Contraseña</string>
     <string name="hintName">Nombre</string>
+
+    <string name="txtbien">Bienvenido </string>
+    <string name="txtseleccionfecha">Por favor seleccione una fecha </string>
+    <string name="txtdesayuno">Desayuno</string>
+    <string name="txtAlmuerzo">Almuerzo</string>
+    <string name="txtCena">Cena</string>
+
+    <string name="VCarbohidratos">Carbohidratos</string>
+    <string name="VColesterol">Colesterol</string>
+    <string name="VEnergia">Energia(Kcal)</string>
+    <string name="VLipidos">Lipidos</string>
+    <string name="VGsaturadas">Grasas saturadas</string>
+    <string name="VSodio">Sodio</string>
+    <string name="VProteina">Proteina</string>
 
 </resources>
