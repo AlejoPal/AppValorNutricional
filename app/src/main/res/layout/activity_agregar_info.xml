@@ -6,4 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".AgregarInfo">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/txtBusqueda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:hint="@string/hintBuscar" />
+
+        <Button
+            android:id="@+id/btnAgregarDesayuno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtdesayuno" />
+
+        <Button
+            android:id="@+id/btnAgregarAlmuerzo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtAlmuerzo" />
+
+        <Button
+            android:id="@+id/btnAgregarCena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtCena" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

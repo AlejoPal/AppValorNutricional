@@ -21,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -65,6 +67,8 @@ public class InformacionGeneral extends AppCompatActivity {
 
         // Cargar fechas a un spinner
         usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            Date date = new Date();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> fechas = new ArrayList<>();
@@ -80,6 +84,16 @@ public class InformacionGeneral extends AppCompatActivity {
                 // Por ejemplo, utilizando un ArrayAdapter
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas);
                 spinner.setAdapter(adapter);
+
+                SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
+                String fechaHoy= fechaC.format(date);
+                // Buscar la posición de la fecha de hoy en la lista
+                int position = fechas.indexOf(fechaHoy);
+
+                // Seleccionar la fecha de hoy si está en la lista
+                if (position != -1) {
+                    spinner.setSelection(position);
+                }
             }
 
             @Override
