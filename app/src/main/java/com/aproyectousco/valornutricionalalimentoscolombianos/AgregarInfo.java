@@ -46,11 +46,13 @@ public class AgregarInfo extends AppCompatActivity {
 
 
 
+
+
     @SuppressLint("StaticFieldLeak")
     private void obtenerDatosColumnaDesdeSheets() {
-        new AsyncTask<Void, Void, List<String>>() {
+        new AsyncTask<Void, Void, List<Alimento>>() {
             @Override
-            protected List<String> doInBackground(Void... voids) {
+            protected List<Alimento> doInBackground(Void... voids) {
                 // URL de la API con el spreadsheetId y sheet
                 String apiUrl = "https://script.google.com/macros/s/AKfycbyDpgPAZrRnAlK-HnO0mRbjxo8BscDDX1td3Z9tyUpkl-9ZMdlwGd7PmCLrtMBt7o2k/exec?spreadsheetId=1bGG7LkQRdh73Y81ZlZ8_Yusb4xuutc3cf_HeJEmkoFc&sheet=nutricion";
 
@@ -74,15 +76,34 @@ public class AgregarInfo extends AppCompatActivity {
                     JSONObject jsonResponse = new JSONObject(response.toString());
                     JSONArray nutricionArray = jsonResponse.getJSONArray("nutricion");
 
-                    // Recorrer el arreglo de objetos nutricion y extraer los valores de cada objeto
-                    List<String> valuesList = new ArrayList<>();
+                    // Recorrer el arreglo de objetos nutricion y crear instancias de Alimento
+                    List<Alimento> alimentosList = new ArrayList<>();
                     for (int i = 0; i < nutricionArray.length(); i++) {
                         JSONObject nutricionObj = nutricionArray.getJSONObject(i);
                         String nombre = nutricionObj.getString("Nombre");
-                        valuesList.add(nombre);
+                        String energia = nutricionObj.getString("Energia");
+                        String proteina = nutricionObj.getString("Proteina");
+                        String carbohidratos = nutricionObj.getString("Carbohidratos");
+                        String colesterol = nutricionObj.getString("Colesterol");
+                        String lipidos = nutricionObj.getString("Lipidos");
+                        String gsat = nutricionObj.getString("Gsat");
+                        String sodio = nutricionObj.getString("Sodio");
+
+                        // Crear una instancia de Alimento y asignar los valores
+                        Alimento alimento = new Alimento();
+                        alimento.setNombre(nombre);
+                        alimento.setEnergia(energia);
+                        alimento.setProteina(proteina);
+                        alimento.setCarbohidratos(carbohidratos);
+                        alimento.setColesterol(colesterol);
+                        alimento.setLipidos(lipidos);
+                        alimento.setGsat(gsat);
+                        alimento.setSodio(sodio);
+
+                        alimentosList.add(alimento);
                     }
 
-                    return valuesList;
+                    return alimentosList;
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -92,74 +113,44 @@ public class AgregarInfo extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(List<String> result) {
+            protected void onPostExecute(List<Alimento> result) {
                 if (result != null) {
-                    valuesList = result;
+                    // Configurar el ArrayAdapter con la lista de valores (nombres de los alimentos)
+                    valuesList = new ArrayList<>();
+                    for (Alimento alimento : result) {
+                        valuesList.add(alimento.getNombre());
+                    }
 
-                    // Configurar el ArrayAdapter con la lista de valores
+                    // Configurar el ArrayAdapter con la lista de alimentos
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(AgregarInfo.this, android.R.layout.simple_dropdown_item_1line, valuesList);
 
                     // Asignar el adaptador al AutoCompleteTextView
                     autoCompleteTextView.setAdapter(adapter);
+
+                    // Manejar la selección del AutoCompleteTextView
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+                        // Obtener el alimento seleccionado
+                        Alimento alimentoSeleccionado = result.get(position);
+
+                        // Aquí puedes acceder a los demás atributos del alimento y hacer lo que necesites
+                        String nombre = alimentoSeleccionado.getNombre();
+                        String energia = alimentoSeleccionado.getEnergia();
+                        String proteina = alimentoSeleccionado.getProteina();
+                        String carbohidratos = alimentoSeleccionado.getCarbohidratos();
+                        String colesterol = alimentoSeleccionado.getColesterol();
+                        String lipidos = alimentoSeleccionado.getLipidos();
+                        String gsat = alimentoSeleccionado.getGsat();
+                        String sodio = alimentoSeleccionado.getSodio();
+
+                        // Hacer algo con los datos obtenidos
+                        // ...
+                    });
                 }
             }
         }.execute();
     }
 
 
-    /*
-    private void obtenerDatosColumnaDesdeSheets() {
-        // Aquí puedes implementar tu lógica para obtener los valores de la columna desde Google Sheets
-        // Puedes usar una biblioteca como Sheets API de Google o HTTP Request para realizar la consulta a Google Sheets y obtener los valores
 
-        // En este ejemplo, se agrega manualmente una lista de valores de ejemplo
-        valuesList = new ArrayList<>();
-        valuesList.add("Valor 1");
-        valuesList.add("Valor 2");
-        valuesList.add("Valor 3");
-        // ...
-
-        // Aquí puedes realizar la consulta a Google Sheets y obtener los valores de la columna deseada
-        // Puedes almacenar los valores en la lista valuesList
-    }
-
-
-    private void obtenerDatosColumnaDesdeSheets() throws GeneralSecurityException, IOException {
-
-
-
-        // Crea una instancia de Sheets utilizando las credenciales previamente configuradas
-        Sheets sheets = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), credential)
-                .setApplicationName("Tu aplicación")
-                .build();
-
-        // ID de la hoja de cálculo que deseas consultar
-        String spreadsheetId = "1bGG7LkQRdh73Y81ZlZ8_Yusb4xuutc3cf_HeJEmkoFc";
-
-        // Rango de la columna que deseas obtener (por ejemplo, "Sheet1!A:A" para obtener todos los valores de la columna A en la hoja Sheet1)
-        String range = "nutricion!A:Z";
-
-        try {
-            // Realiza la solicitud para obtener los datos de la columna en el rango especificado
-            ValueRange response = sheets.spreadsheets().values().get(spreadsheetId, range).execute();
-
-            // Obtiene los valores de la columna en forma de lista
-            List<List<Object>> values = response.getValues();
-
-            if (values != null && values.size() > 0) {
-                for (List<Object> row : values) {
-                    // Accede al valor de la celda en la columna y agrega el valor a la lista de sugerencias
-                    String cellValue = row.get(0).toString();
-                    suggestionsList.add(cellValue);
-                }
-            } else {
-                // No se encontraron datos en el rango especificado
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    */
 
 }
