@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,9 +57,6 @@ public class AgregarInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_info);
 
-        verificar = findViewById(R.id.textoprueba);
-
-
         mAuth = FirebaseAuth.getInstance();
         mRootReference = FirebaseDatabase.getInstance().getReference();
 
@@ -76,6 +74,7 @@ public class AgregarInfo extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
 
 
+
     }
 
 
@@ -85,6 +84,11 @@ public class AgregarInfo extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void obtenerDatosColumnaDesdeSheets() {
+
+        Button desayunoButton = findViewById(R.id.btnAgregarDesayuno);
+        Button almuerzoButton = findViewById(R.id.btnAgregarAlmuerzo);
+        Button cenaButton = findViewById(R.id.btnAgregarCena);
+
         new AsyncTask<Void, Void, List<Alimento>>() {
             @Override
             protected List<Alimento> doInBackground(Void... voids) {
@@ -224,9 +228,29 @@ public class AgregarInfo extends AppCompatActivity {
                         String Correo = intent.getStringExtra("Correo");
 
                         Toast.makeText(AgregarInfo.this, "Llegue hasta aca2", Toast.LENGTH_SHORT).show();
+                        desayunoButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
 
-                        cargarDatosFirebaseI(fechaHoy, Correo, Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
-                        verificar.setText(Correo);
+                            }
+                        });
+
+                        almuerzoButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
+
+                            }
+                        });
+
+                        cenaButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
+
+                            }
+                        });
                     });
 
 
@@ -237,12 +261,12 @@ public class AgregarInfo extends AppCompatActivity {
         }.execute();
     }
 
-    private void cargarDatosFirebaseI(String fecha, String correo, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
+    private void cargarDatosFirebaseI(String fecha, String correo, String comida, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference mRootReference = database.getReference();
             // Obtener la referencia al nodo del usuario
-            DatabaseReference fechaRef = mRootReference.child("Usuario").child(correo).child(fecha).child("Desayuno");
+            DatabaseReference fechaRef = mRootReference.child("Usuario").child(correo).child(fecha).child(comida);
 
             fechaRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
