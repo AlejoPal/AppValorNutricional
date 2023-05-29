@@ -96,6 +96,7 @@ public class InicarSesion extends AppCompatActivity {
                     Intent intent =  new Intent(InicarSesion.this, InformacionGeneral.class);
                     intent.putExtra("Correo", correo.getText().toString().replace(".", ""));
                     startActivity(intent);
+
                 }else {
 
                     Toast.makeText(InicarSesion.this, "Usuario o Contraseña invalidas", Toast.LENGTH_SHORT).show();

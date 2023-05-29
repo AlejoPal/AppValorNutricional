@@ -40,5 +40,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtCena" />
+
+        <TextView
+            android:id="@+id/textoprueba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

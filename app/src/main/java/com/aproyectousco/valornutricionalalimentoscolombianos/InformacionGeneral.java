@@ -61,6 +61,7 @@ public class InformacionGeneral extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
+                intent.putExtra("Correo", Correo);
                 startActivity(intent);
             }
         });
