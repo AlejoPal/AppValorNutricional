@@ -17,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:background="@color/fondo">
+        android:background="@drawable/fondobase4"
+>
 
         <TextView
             android:id="@+id/textView"
@@ -26,7 +27,9 @@
             android:fontFamily="@font/roboto"
             android:text="@string/app_nombre"
             android:textAlignment="center"
-            android:textSize="34sp" />
+            android:textColor="#000000"
+            android:textSize="34sp"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/btninicar"
@@ -35,7 +38,9 @@
             android:fontFamily="@font/roboto"
             android:text="@string/btn_inicarsesion"
             android:textColor="@color/white"
-            />
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="8dp"/>
+
 
         <Button
             android:id="@+id/btnregistrarse"
@@ -43,6 +48,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="@string/btn_registrarse"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="8dp"
+            />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

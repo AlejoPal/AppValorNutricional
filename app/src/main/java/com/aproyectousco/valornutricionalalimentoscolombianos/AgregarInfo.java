@@ -227,12 +227,14 @@ public class AgregarInfo extends AppCompatActivity {
                         Intent intent = getIntent();
                         String Correo = intent.getStringExtra("Correo");
 
-                        Toast.makeText(AgregarInfo.this, "Llegue hasta aca2", Toast.LENGTH_SHORT).show();
+
                         desayunoButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
-
+                                Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+                                startActivity(intent);
                             }
                         });
 
@@ -240,7 +242,9 @@ public class AgregarInfo extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
-
+                                Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+                                startActivity(intent);
                             }
                         });
 
@@ -248,7 +252,9 @@ public class AgregarInfo extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Cena", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
-
+                                Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+                                startActivity(intent);
                             }
                         });
                     });

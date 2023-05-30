@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:background="@drawable/fondobase4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,19 +28,25 @@
             android:id="@+id/btnAgregarDesayuno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txtdesayuno" />
+            android:text="@string/txtdesayuno"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="8dp"/>
 
         <Button
             android:id="@+id/btnAgregarAlmuerzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txtAlmuerzo" />
+            android:text="@string/txtAlmuerzo"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="8dp"/>
 
         <Button
             android:id="@+id/btnAgregarCena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txtCena" />
+            android:text="@string/txtCena"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
