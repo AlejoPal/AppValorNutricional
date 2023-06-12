@@ -21,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,7 +42,6 @@ public class InformacionGeneral extends AppCompatActivity {
         spinner = findViewById(R.id.spinnerfechas);
         btnIragregar = findViewById(R.id.btnIragregar);
 
-        //Variables
         //Se recupera el correo de inicio de sesion o de registrar
         Intent intent = getIntent();
         String Correo = intent.getStringExtra("Correo");
@@ -59,12 +60,15 @@ public class InformacionGeneral extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
+                intent.putExtra("Correo", Correo);
                 startActivity(intent);
             }
         });
 
         // Cargar fechas a un spinner
         usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            Date date = new Date();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> fechas = new ArrayList<>();
@@ -80,6 +84,16 @@ public class InformacionGeneral extends AppCompatActivity {
                 // Por ejemplo, utilizando un ArrayAdapter
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas);
                 spinner.setAdapter(adapter);
+
+                SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
+                String fechaHoy= fechaC.format(date);
+                // Buscar la posición de la fecha de hoy en la lista
+                int position = fechas.indexOf(fechaHoy);
+
+                // Seleccionar la fecha de hoy si está en la lista
+                if (position != -1) {
+                    spinner.setSelection(position);
+                }
             }
 
             @Override
@@ -133,6 +147,8 @@ public class InformacionGeneral extends AppCompatActivity {
 
 
     }
+
+
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
