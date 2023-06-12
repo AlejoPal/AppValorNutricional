@@ -233,8 +233,7 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
-                                startActivity(intent);
+                                volverAInformacionGeneral();
                             }
                         });
 
@@ -243,9 +242,8 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
-                                startActivity(intent);
-                            }
+                                volverAInformacionGeneral();
+                                }
                         });
 
                         cenaButton.setOnClickListener(new View.OnClickListener() {
@@ -253,9 +251,8 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Cena", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
-                                startActivity(intent);
-                            }
+                                volverAInformacionGeneral();
+                                }
                         });
                     });
 
@@ -271,26 +268,30 @@ public class AgregarInfo extends AppCompatActivity {
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference mRootReference = database.getReference();
+
             // Obtener la referencia al nodo del usuario
             DatabaseReference fechaRef = mRootReference.child("Usuario").child(correo).child(fecha).child(comida);
 
-            fechaRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        fechaRef.setValue(infoAlimenticia(proteina, energia, carbohidratos, lipidos, sales, gsat, colesterol));
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Manejo de errores en caso de fallo en la lectura de la base de datos
-                }
-            });
+            fechaRef.setValue(infoAlimenticia(proteina, energia, carbohidratos, lipidos, sales, gsat, colesterol))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Los datos se guardaron exitosamente
+                                Toast.makeText(AgregarInfo.this, "Datos guardados en Firebase", Toast.LENGTH_SHORT).show();
+                                volverAInformacionGeneral();
+                            } else {
+                                // Se produjo un error al guardar los datos
+                                Toast.makeText(AgregarInfo.this, "Error al guardar los datos en Firebase", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         } catch (Exception e) {
             Log.e("TAG", "Ocurrió un error: " + e.getMessage());
             // Manejar el error de alguna manera adecuada
         }
     }
+
 
 
     private Object infoAlimenticia(double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
@@ -303,6 +304,12 @@ public class AgregarInfo extends AppCompatActivity {
         fechas.put("Gsat", gsat);
         fechas.put("Colesterol", colesterol);
         return fechas;
+    }
+
+    private void volverAInformacionGeneral() {
+        Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+        startActivity(intent);
+        finish();
     }
 
 

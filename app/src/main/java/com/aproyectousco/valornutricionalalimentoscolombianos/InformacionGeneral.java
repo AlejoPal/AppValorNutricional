@@ -42,7 +42,6 @@ public class InformacionGeneral extends AppCompatActivity {
         spinner = findViewById(R.id.spinnerfechas);
         btnIragregar = findViewById(R.id.btnIragregar);
 
-        //Variables
         //Se recupera el correo de inicio de sesion o de registrar
         Intent intent = getIntent();
         String Correo = intent.getStringExtra("Correo");
@@ -148,6 +147,8 @@ public class InformacionGeneral extends AppCompatActivity {
 
 
     }
+
+
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
