@@ -22,7 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:hint="@string/hintBuscar" />
+            android:hint="@string/hintBuscar"
+            android:textColor="@color/black"
+            style="@style/AutoCompleteTextViewStyle"
+            />
 
         <Button
             android:id="@+id/btnAgregarDesayuno"

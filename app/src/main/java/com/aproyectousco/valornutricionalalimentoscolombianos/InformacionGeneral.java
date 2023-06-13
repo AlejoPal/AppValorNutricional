@@ -48,6 +48,7 @@ public class InformacionGeneral extends AppCompatActivity {
 
 
 
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 

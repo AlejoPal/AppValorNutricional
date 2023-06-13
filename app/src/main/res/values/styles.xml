@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EditTextOscuro" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colortextos</item>
+    </style>
+    <style name="AutoCompleteTextViewStyle" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:popupBackground">@drawable/dropdown_item_bg</item>
+    </style>
+
+</resources>

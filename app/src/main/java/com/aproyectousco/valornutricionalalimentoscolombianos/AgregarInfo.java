@@ -181,43 +181,7 @@ public class AgregarInfo extends AppCompatActivity {
                         String gsat = alimentoSeleccionado.getGsat();
                         String sodio = alimentoSeleccionado.getSodio();
                         // Hacer algo con los datos obtenidos
-/*
-                        // Conseguir fecha y correo
-                        Date date = new Date();
-                        SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
-                        String sfecha = fechaC.format(date);
-                        Intent intent = getIntent();
-                        String correo = intent.getStringExtra("Correo");
 
-                        // Obtener la referencia al nodo del usuario
-                        DatabaseReference databaseRef = mRootReference.child("Usuario").child(correo).child(sfecha).child("Desayuno");
-                        Log.d("AgregarInfo", "Referencia de la base de datos: " + databaseRef.toString());
-
-                        // Crear un mapa con los datos del alimento
-                        Map<String, Object> alimentoMap = new HashMap<>();
-                        alimentoMap.put("energia", energia);
-                        alimentoMap.put("proteina", proteina);
-                        alimentoMap.put("carbohidratos", carbohidratos);
-                        alimentoMap.put("colesterol", colesterol);
-                        alimentoMap.put("lipidos", lipidos);
-                        alimentoMap.put("gsat", gsat);
-                        alimentoMap.put("sodio", sodio);
-
-                        // Guardar los datos en la base de datos
-                        databaseRef.setValue(alimentoMap)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            // Los datos se guardaron exitosamente
-                                            Toast.makeText(AgregarInfo.this, "Datos guardados en Firebase", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Se produjo un error al guardar los datos
-                                            Toast.makeText(AgregarInfo.this, "Error al guardar los datos en Firebase", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                        */
                         // Conseguir fecha y correo
                         Date date = new Date();
                         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
@@ -233,7 +197,7 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral();
+                                volverAInformacionGeneral(Correo);
                             }
                         });
 
@@ -242,7 +206,7 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral();
+                                volverAInformacionGeneral(Correo);
                                 }
                         });
 
@@ -251,7 +215,7 @@ public class AgregarInfo extends AppCompatActivity {
                             public void onClick(View v) {
                                 cargarDatosFirebaseI(fechaHoy, Correo, "Cena", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
                                 Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral();
+                                volverAInformacionGeneral(Correo);
                                 }
                         });
                     });
@@ -279,7 +243,7 @@ public class AgregarInfo extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Los datos se guardaron exitosamente
                                 Toast.makeText(AgregarInfo.this, "Datos guardados en Firebase", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral();
+                                //volverAInformacionGeneral(correo);
                             } else {
                                 // Se produjo un error al guardar los datos
                                 Toast.makeText(AgregarInfo.this, "Error al guardar los datos en Firebase", Toast.LENGTH_SHORT).show();
@@ -306,8 +270,9 @@ public class AgregarInfo extends AppCompatActivity {
         return fechas;
     }
 
-    private void volverAInformacionGeneral() {
+    private void volverAInformacionGeneral(String Correo) {
         Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+        intent.putExtra("Correo", Correo);
         startActivity(intent);
         finish();
     }

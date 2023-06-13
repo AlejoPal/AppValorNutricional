@@ -57,6 +57,7 @@ public class Registrar extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), InicarSesion.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -68,40 +69,57 @@ public class Registrar extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
     }
-    public void registrarUsuario(View view){
-        if (contrasena.getText().toString().equals(confirmar.getText().toString())){
-            mAuth.createUserWithEmailAndPassword(correoR.getText().toString(), contrasena.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    public void registrarUsuario(View view) {
+        String nombreText = nombre.getText().toString().trim();
+        String correoText = correoR.getText().toString().trim();
+        String contrasenaText = contrasena.getText().toString().trim();
+        String confirmarText = confirmar.getText().toString().trim();
+
+        // Verificar que los campos no estén vacíos
+        if (nombreText.isEmpty() || correoText.isEmpty() || contrasenaText.isEmpty() || confirmarText.isEmpty()) {
+            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Verificar la longitud mínima de la contraseña
+        if (contrasenaText.length() < 6 || confirmarText.length() < 6) {
+            Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (contrasenaText.equals(confirmarText)) {
+            mAuth.createUserWithEmailAndPassword(correoText, contrasenaText).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 Date date = new Date();
+
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         mRootReference = FirebaseDatabase.getInstance().getReference();
 
-                        //Conseguir fecha
+                        // Obtener la fecha actual
                         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
                         String sfecha = fechaC.format(date);
 
-                        cargarDatosFirebase(nombre.getText().toString(), sfecha, correoR.getText().toString().replace(".", ""));
+                        cargarDatosFirebase(nombreText, sfecha, correoText.replace(".", ""));
 
-                        //Ir a informacion general cuando inicie Sesion
-                        Toast.makeText(Registrar.this, "Login", Toast.LENGTH_SHORT).show();
+                        // Ir a InformacionGeneral cuando inicie sesión
+                        Toast.makeText(Registrar.this, "Inicio de sesión", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent =  new Intent(Registrar.this, InformacionGeneral.class);
-                        intent.putExtra("Correo", correoR.getText().toString().replace(".", ""));
+                        Intent intent = new Intent(Registrar.this, InformacionGeneral.class);
+                        intent.putExtra("Correo", correoText.replace(".", ""));
                         startActivity(intent);
-                    }else {
-
-                        Toast.makeText(Registrar.this, "Authentication failed", Toast.LENGTH_SHORT).show();
-
+                        finish();
+                    } else {
+                        Toast.makeText(Registrar.this, "Error en la autenticación", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }else {
-            Toast.makeText(this, "Las contrasenas no son iguales", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }
-
     }
+
 
     private void cargarDatosFirebase(String nombre, String fecha, String Correo) {
         //Parte de fechas

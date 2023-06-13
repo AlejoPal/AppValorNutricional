@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fondo">#ADFF76</color>
     <color name="botones">#E27318F3</color>
+    <color name="colorHintOscuro">#40000000</color>
+    <color name="colortextos">#CD000000</color>
+
 </resources>

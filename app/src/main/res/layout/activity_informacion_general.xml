@@ -67,7 +67,9 @@
         <Spinner
             android:id="@+id/spinnerfechas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:popupBackground="@color/white"
+            />
 
         <Space
             android:layout_width="match_parent"

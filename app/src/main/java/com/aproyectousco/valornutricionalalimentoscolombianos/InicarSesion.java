@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -60,6 +61,7 @@ public class InicarSesion extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(InicarSesion.this, Registrar.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -71,6 +73,13 @@ public class InicarSesion extends AppCompatActivity {
     }
     public void iniciarSesion (View view){
 
+        String email = correo.getText().toString().trim();
+        String password = contrasena.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Por favor ingresa correo y contraseña", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.signInWithEmailAndPassword(correo.getText().toString(), contrasena.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             Date date = new Date();
@@ -96,6 +105,7 @@ public class InicarSesion extends AppCompatActivity {
                     Intent intent =  new Intent(InicarSesion.this, InformacionGeneral.class);
                     intent.putExtra("Correo", correo.getText().toString().replace(".", ""));
                     startActivity(intent);
+                    finish();
 
                 }else {
 

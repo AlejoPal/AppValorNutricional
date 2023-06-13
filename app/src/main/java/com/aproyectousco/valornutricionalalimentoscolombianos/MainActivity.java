@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, InicarSesion.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Registrar.class);
                 startActivity(intent);
+                finish();
             }
         });
 
