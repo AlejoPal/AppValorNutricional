@@ -81,7 +81,7 @@ public class InicarSesion extends AppCompatActivity {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(correo.getText().toString(), contrasena.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             Date date = new Date();
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
