@@ -1,6 +1,7 @@
 package com.aproyectousco.valornutricionalalimentoscolombianos;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,7 +87,24 @@ public class InformacionGeneral extends AppCompatActivity {
 
                 // Aquí puedes utilizar la lista de fechas para mostrarlas en el Spinner
                 // Por ejemplo, utilizando un ArrayAdapter
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas) {
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView textView = (TextView) view;
+                        textView.setText(formatoFecha(fechas.get(position)));
+                        return view;
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView textView = (TextView) view;
+                        textView.setText(formatoFecha(fechas.get(position)));
+                        return view;
+                    }
+                };
                 spinner.setAdapter(adapter);
 
                 SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
@@ -144,6 +164,18 @@ public class InformacionGeneral extends AppCompatActivity {
                 // Acciones a realizar cuando no se ha seleccionado ninguna fecha
             }
         });
+    }
+
+    private String formatoFecha(String fecha) {
+        try {
+            SimpleDateFormat fechaOriginal = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat fechaFormateada = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = fechaOriginal.parse(fecha);
+            return fechaFormateada.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return fecha;
     }
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
