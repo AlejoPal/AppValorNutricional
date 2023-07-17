@@ -2,6 +2,7 @@ package com.aproyectousco.valornutricionalalimentoscolombianos;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import java.util.List;
 
 public class InformacionGeneral extends AppCompatActivity {
 
+    ViewPager2 viewPager2;
+
     TextView textonombre;
 
     Spinner spinner;
@@ -41,35 +44,33 @@ public class InformacionGeneral extends AppCompatActivity {
 
         spinner = findViewById(R.id.spinnerfechas);
         btnIragregar = findViewById(R.id.btnIragregar);
+        viewPager2 = findViewById(R.id.viewpager);
 
-        //Se recupera el correo de inicio de sesion o de registrar
+        // Se recupera el correo de inicio de sesión o de registro
         Intent intent = getIntent();
-        String Correo = intent.getStringExtra("Correo");
-
-
-
+        String[] comidas = {"Desayuno, Almuerzo, Cena"};
+        String correo = intent.getStringExtra("Correo");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 
         // Obtener la referencia al nodo del usuario
-        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(Correo);
+        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo);
 
-
-        //Boton Para ir a agregar una comida
+        // Botón para ir a agregar una comida
         btnIragregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
-                intent.putExtra("Correo", Correo);
+                intent.putExtra("Correo", correo);
                 startActivity(intent);
             }
         });
 
         // Cargar fechas a un spinner
         usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
             Date date = new Date();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> fechas = new ArrayList<>();
@@ -94,6 +95,8 @@ public class InformacionGeneral extends AppCompatActivity {
                 // Seleccionar la fecha de hoy si está en la lista
                 if (position != -1) {
                     spinner.setSelection(position);
+                    String fechaSeleccionada = fechas.get(position);
+                    obtenerInformacionComidas(fechaSeleccionada, correo);
                 }
             }
 
@@ -102,22 +105,6 @@ public class InformacionGeneral extends AppCompatActivity {
                 // Manejo de errores en caso de fallo en la lectura de la base de datos
             }
         });
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String fechaSeleccionada = (String) parent.getItemAtPosition(position);
-
-                // Llama a un método para obtener la información de la fecha seleccionada
-                obtenerInformacionComidas(fechaSeleccionada, Correo);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se ha seleccionado ninguna fecha
-            }
-        });
-
 
         // Crear el listener para recuperar el valor del nombre
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -143,15 +130,31 @@ public class InformacionGeneral extends AppCompatActivity {
         // Agregar el listener a la referencia del usuario
         usuarioRef.addValueEventListener(valueEventListener);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String fechaSeleccionada = (String) parent.getItemAtPosition(position);
 
+                // Llama a un método para obtener la información de la fecha seleccionada
+                obtenerInformacionComidas(fechaSeleccionada, correo);
+            }
 
-
-
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se ha seleccionado ninguna fecha
+            }
+        });
     }
 
-
-
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
+        String[] infoCarbohidratos = new String[3];
+        String[] infoColesterol = new String[3];
+        String[] infoEnergia = new String[3];
+        String[] infoGsat = new String[3];
+        String[] infoLipidos = new String[3];
+        String[] infoProteina = new String[3];
+        String[] infoSodio = new String[3];
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 
@@ -174,65 +177,51 @@ public class InformacionGeneral extends AppCompatActivity {
                         Double proteinas = comidaSnapshot.child("Proteina").getValue(Double.class);
                         Double sodio = comidaSnapshot.child("Sodio").getValue(Double.class);
 
-                        // Asignar los valores a los TextView correspondientes
+                        // Asignar los valores a los arrays correspondientes
                         if (comida.equals("Desayuno")) {
-                            TextView txtCarbohidratosD = findViewById(R.id.txtcarbohidratosD);
-                            TextView txtColesterolD = findViewById(R.id.txtcolesterolD);
-                            TextView txtEnergiaD = findViewById(R.id.txtenergiaD);
-                            TextView txtSaturadasD = findViewById(R.id.txtgsaturadasD);
-                            TextView txtLipidosD = findViewById(R.id.txtlipidosD);
-                            TextView txtProteinasD = findViewById(R.id.txtproteinasD);
-                            TextView txtSodioD = findViewById(R.id.txtsodioD);
-
-
-                            txtCarbohidratosD.setText(String.valueOf(carbohidratos));
-                            txtColesterolD.setText(String.valueOf(colesterol));
-                            txtEnergiaD.setText(String.valueOf(energia));
-                            txtSaturadasD.setText(String.valueOf(gsat));
-                            txtLipidosD.setText(String.valueOf(lipidos));
-                            txtProteinasD.setText(String.valueOf(proteinas));
-                            txtSodioD.setText(String.valueOf(sodio));
-
+                            infoCarbohidratos[0] = String.valueOf(carbohidratos);
+                            infoColesterol[0] = String.valueOf(colesterol);
+                            infoEnergia[0] = String.valueOf(energia);
+                            infoGsat[0] = String.valueOf(gsat);
+                            infoLipidos[0] = String.valueOf(lipidos);
+                            infoProteina[0] = String.valueOf(proteinas);
+                            infoSodio[0] = String.valueOf(sodio);
                         } else if (comida.equals("Almuerzo")) {
-                            TextView txtCarbohidratosA = findViewById(R.id.txtcarbohidratosA);
-                            TextView txtColesterolA = findViewById(R.id.txtcolesterolA);
-                            TextView txtEnergiaA = findViewById(R.id.txtenergiaA);
-                            TextView txtSaturadasA = findViewById(R.id.txtgsaturadasA);
-                            TextView txtLipidosA = findViewById(R.id.txtlipidosA);
-                            TextView txtProteinasA = findViewById(R.id.txtproteinasA);
-                            TextView txtSodioA = findViewById(R.id.txtsodioA);
-
-
-                            txtCarbohidratosA.setText(String.valueOf(carbohidratos));
-                            txtColesterolA.setText(String.valueOf(colesterol));
-                            txtEnergiaA.setText(String.valueOf(energia));
-                            txtSaturadasA.setText(String.valueOf(gsat));
-                            txtLipidosA.setText(String.valueOf(lipidos));
-                            txtProteinasA.setText(String.valueOf(proteinas));
-                            txtSodioA.setText(String.valueOf(sodio));
-
+                            infoCarbohidratos[1] = String.valueOf(carbohidratos);
+                            infoColesterol[1] = String.valueOf(colesterol);
+                            infoEnergia[1] = String.valueOf(energia);
+                            infoGsat[1] = String.valueOf(gsat);
+                            infoLipidos[1] = String.valueOf(lipidos);
+                            infoProteina[1] = String.valueOf(proteinas);
+                            infoSodio[1] = String.valueOf(sodio);
                         } else if (comida.equals("Cena")) {
-
-                            TextView txtCarbohidratosC = findViewById(R.id.txtcarbohidratosC);
-                            TextView txtColesterolC = findViewById(R.id.txtcolesterolC);
-                            TextView txtEnergiaC = findViewById(R.id.txtenergiaC);
-                            TextView txtSaturadasC = findViewById(R.id.txtgsaturadasC);
-                            TextView txtLipidosC = findViewById(R.id.txtlipidosC);
-                            TextView txtProteinasC = findViewById(R.id.txtproteinasC);
-                            TextView txtSodioC = findViewById(R.id.txtsodioC);
-
-
-                            txtCarbohidratosC.setText(String.valueOf(carbohidratos));
-                            txtColesterolC.setText(String.valueOf(colesterol));
-                            txtEnergiaC.setText(String.valueOf(energia));
-                            txtSaturadasC.setText(String.valueOf(gsat));
-                            txtLipidosC.setText(String.valueOf(lipidos));
-                            txtProteinasC.setText(String.valueOf(proteinas));
-                            txtSodioC.setText(String.valueOf(sodio));
+                            infoCarbohidratos[2] = String.valueOf(carbohidratos);
+                            infoColesterol[2] = String.valueOf(colesterol);
+                            infoEnergia[2] = String.valueOf(energia);
+                            infoGsat[2] = String.valueOf(gsat);
+                            infoLipidos[2] = String.valueOf(lipidos);
+                            infoProteina[2] = String.valueOf(proteinas);
+                            infoSodio[2] = String.valueOf(sodio);
                         }
                     }
+
+                    // Crear los objetos ViewPagerItem y configurar el adaptador en el ViewPager2
+                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", infoCarbohidratos[0], infoColesterol[0], infoEnergia[0], infoGsat[0], infoLipidos[0], infoProteina[0], infoSodio[0]);
+                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", infoCarbohidratos[1], infoColesterol[1], infoEnergia[1], infoGsat[1], infoLipidos[1], infoProteina[1], infoSodio[1]);
+                    ViewPagerItem cena = new ViewPagerItem("Cena", infoCarbohidratos[2], infoColesterol[2], infoEnergia[2], infoGsat[2], infoLipidos[2], infoProteina[2], infoSodio[2]);
+
+                    ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
+                    viewPagerItems.add(desayuno);
+                    viewPagerItems.add(almuerzo);
+                    viewPagerItems.add(cena);
+
+                    VPAdapter vpAdapter = new VPAdapter(viewPagerItems);
+                    viewPager2.setAdapter(vpAdapter);
+
+                    // Añade esta línea para notificar al adaptador que los datos han cambiado
+                    vpAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(InformacionGeneral.this, "No entro a la base de datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -242,7 +231,4 @@ public class InformacionGeneral extends AppCompatActivity {
             }
         });
     }
-
-
 }
-
