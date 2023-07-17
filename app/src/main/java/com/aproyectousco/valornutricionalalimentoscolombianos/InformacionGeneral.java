@@ -166,6 +166,7 @@ public class InformacionGeneral extends AppCompatActivity {
         });
     }
 
+
     private String formatoFecha(String fecha) {
         try {
             SimpleDateFormat fechaOriginal = new SimpleDateFormat("yyyyMMdd");
