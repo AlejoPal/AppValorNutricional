@@ -2,7 +2,8 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
             android:fontFamily="@font/roboto"
             android:text="@string/txtdesayuno"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="24dp" />
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -33,14 +34,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VCarbohidratos" />
+                    android:text="@string/VCarbohidratos"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtcarbohidratos"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -52,14 +55,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VColesterol" />
+                    android:text="@string/VColesterol"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtcolesterol"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -71,14 +76,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VEnergia" />
+                    android:text="@string/VEnergia"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtenergia"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -90,14 +97,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VGsaturadas" />
+                    android:text="@string/VGsaturadas"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtgsaturadas"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -109,14 +118,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VLipidos" />
+                    android:text="@string/VLipidos"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtlipidos"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -128,14 +139,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VProteina" />
+                    android:text="@string/VProteina"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtproteinas"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -147,14 +160,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/VSodio" />
+                    android:text="@string/VSodio"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtsodio"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
             </TableRow>
 
         </TableLayout>

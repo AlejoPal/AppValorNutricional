@@ -6,5 +6,8 @@
     <style name="AutoCompleteTextViewStyle" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:popupBackground">@drawable/dropdown_item_bg</item>
     </style>
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>
