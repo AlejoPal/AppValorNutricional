@@ -62,7 +62,7 @@ public class InformacionGeneral extends AppCompatActivity {
         Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
 
 
-        
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 
