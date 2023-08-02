@@ -273,7 +273,8 @@ public class AgregarInfo extends AppCompatActivity {
     private void volverAInformacionGeneral(String Correo) {
         Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
         intent.putExtra("Correo", Correo);
-        startActivity(intent);
+        setResult(RESULT_OK, intent); // Establecemos el resultado como RESULT_OK
+
         finish();
     }
 

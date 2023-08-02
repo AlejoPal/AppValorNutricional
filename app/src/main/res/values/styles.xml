@@ -10,4 +10,9 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="DatePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/botones</item>
+    </style>
+
+
 </resources>

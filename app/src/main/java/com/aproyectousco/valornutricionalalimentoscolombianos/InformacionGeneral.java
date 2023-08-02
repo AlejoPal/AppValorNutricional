@@ -43,7 +43,8 @@ public class InformacionGeneral extends AppCompatActivity {
 
     Button btnIragregar;
 
-    String correo;
+    String correo, fechahoy;
+    DatabaseReference mRootReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,13 @@ public class InformacionGeneral extends AppCompatActivity {
         String[] comidas = {"Desayuno, Almuerzo, Cena"};
         correo = intent.getStringExtra("Correo");
 
+
         Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
 
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRootReference = database.getReference();
+        mRootReference = database.getReference();
 
         // Obtener la referencia al nodo del usuario
         DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo);
@@ -75,13 +77,41 @@ public class InformacionGeneral extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
                 intent.putExtra("Correo", correo);
-                startActivity(intent);
+                startActivityForResult(intent, 1); // Usamos el código de solicitud 1
+
             }
         });
 
+
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Verificar si existe el nodo del usuario
+                if (dataSnapshot.exists()) {
+                    // Obtener el valor del nombre desde el dataSnapshot
+                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
+
+                    // Mostrar el nombre en el TextView correspondiente
+                    textonombre = findViewById(R.id.NombreUsuario);
+                    textonombre.setText(nombre);
+                } else {
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejo de errores en caso de fallo en la lectura de la base de datos
+                Toast.makeText(InformacionGeneral.this, "Error al leer los datos de la base de datos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         Date date = new Date();
         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
-        String fechahoy = fechaC.format(date);
+        fechahoy = fechaC.format(date);
+
+
 
         obtenerInformacionComidas(fechahoy, correo);
 
@@ -94,13 +124,41 @@ public class InformacionGeneral extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Actualizar la información cada vez que la actividad se vuelva visible
+        obtenerInformacionComidas(fechahoy, correo);
+
+        // Obtener el nombre del usuario y mostrarlo en el TextView correspondiente
+        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo);
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
+                    textonombre.setText(nombre);
+                } else {
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(InformacionGeneral.this, "Error al leer los datos de la base de datos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     public void abrirCalenadario(View view){
         Calendar cal = Calendar.getInstance();
         int anio = cal.get(Calendar.YEAR);
         int mes = cal.get(Calendar.MONTH);
         int dia = cal.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this,R.style.DatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String fecha = dayOfMonth + "/" + String.format("%02d", (month + 1)) + "/" + year; // Formato de mes con dos dígitos
@@ -135,6 +193,7 @@ public class InformacionGeneral extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     for (DataSnapshot comidaSnapshot : dataSnapshot.getChildren()) {
                         String comida = comidaSnapshot.getKey();
 
@@ -192,6 +251,22 @@ public class InformacionGeneral extends AppCompatActivity {
                     vpAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
+
+                    // Si no se encontraron datos en la base de datos, crear un ViewPagerItem con valores predeterminados en 0
+                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem cena = new ViewPagerItem("Cena", "0", "0", "0", "0", "0", "0", "0");
+
+                    ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
+                    viewPagerItems.add(desayuno);
+                    viewPagerItems.add(almuerzo);
+                    viewPagerItems.add(cena);
+
+                    VPAdapter vpAdapter = new VPAdapter(viewPagerItems);
+                    viewPager2.setAdapter(vpAdapter);
+
+                    // Añade esta línea para notificar al adaptador que los datos han cambiado
+                    vpAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -201,4 +276,5 @@ public class InformacionGeneral extends AppCompatActivity {
             }
         });
     }
+
 }
