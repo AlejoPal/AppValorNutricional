@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,24 +39,30 @@ public class InformacionGeneral extends AppCompatActivity {
     ViewPager2 viewPager2;
 
     TextView textonombre;
+    TextView textFecha;
 
-    Spinner spinner;
     Button btnIragregar;
+
+    String correo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_general);
 
-        spinner = findViewById(R.id.spinnerfechas);
+        textFecha = findViewById(R.id.fecha);
         btnIragregar = findViewById(R.id.btnIragregar);
         viewPager2 = findViewById(R.id.viewpager);
 
         // Se recupera el correo de inicio de sesión o de registro
         Intent intent = getIntent();
         String[] comidas = {"Desayuno, Almuerzo, Cena"};
-        String correo = intent.getStringExtra("Correo");
+        correo = intent.getStringExtra("Correo");
 
+        Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
+
+
+        
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 
@@ -70,114 +79,42 @@ public class InformacionGeneral extends AppCompatActivity {
             }
         });
 
-        // Cargar fechas a un spinner
-        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            Date date = new Date();
+        Date date = new Date();
+        SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
+        String fechahoy = fechaC.format(date);
 
+        obtenerInformacionComidas(fechahoy, correo);
+
+        SimpleDateFormat fecha2 = new SimpleDateFormat("dd/MM/yyyy");
+        String sfecha = fecha2.format(date);
+
+        textFecha.setText(sfecha);
+
+
+
+    }
+
+    public void abrirCalenadario(View view){
+        Calendar cal = Calendar.getInstance();
+        int anio = cal.get(Calendar.YEAR);
+        int mes = cal.get(Calendar.MONTH);
+        int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> fechas = new ArrayList<>();
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String fecha = dayOfMonth + "/" + String.format("%02d", (month + 1)) + "/" + year; // Formato de mes con dos dígitos
+                String fechaSeleccionada = "" + year + String.format("%02d", (month + 1)) + String.format("%02d", dayOfMonth); // Formato con ceros iniciales para mes y día
 
-                for (DataSnapshot fechaSnapshot : dataSnapshot.getChildren()) {
-                    if (!fechaSnapshot.getKey().equals("Nombre")) {
-                        String fecha = fechaSnapshot.getKey();
-                        fechas.add(fecha);
-                    }
-                }
-
-                // Aquí puedes utilizar la lista de fechas para mostrarlas en el Spinner
-                // Por ejemplo, utilizando un ArrayAdapter
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas) {
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        View view = super.getView(position, convertView, parent);
-                        TextView textView = (TextView) view;
-                        textView.setText(formatoFecha(fechas.get(position)));
-                        return view;
-                    }
-
-                    @Override
-                    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        View view = super.getDropDownView(position, convertView, parent);
-                        TextView textView = (TextView) view;
-                        textView.setText(formatoFecha(fechas.get(position)));
-                        return view;
-                    }
-                };
-                spinner.setAdapter(adapter);
-
-                SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
-                String fechaHoy= fechaC.format(date);
-                // Buscar la posición de la fecha de hoy en la lista
-                int position = fechas.indexOf(fechaHoy);
-
-                // Seleccionar la fecha de hoy si está en la lista
-                if (position != -1) {
-                    spinner.setSelection(position);
-                    String fechaSeleccionada = fechas.get(position);
-                    obtenerInformacionComidas(fechaSeleccionada, correo);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejo de errores en caso de fallo en la lectura de la base de datos
-            }
-        });
-
-        // Crear el listener para recuperar el valor del nombre
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
-
-                    textonombre = findViewById(R.id.NombreUsuario);
-                    // Hacer algo con el valor del nombre
-                    textonombre.setText(nombre);
-                    Log.d("TAG", "Nombre: " + nombre);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar errores de lectura de la base de datos
-                Log.d("TAG", "Error al leer la base de datos: " + databaseError.getMessage());
-            }
-        };
-
-        // Agregar el listener a la referencia del usuario
-        usuarioRef.addValueEventListener(valueEventListener);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String fechaSeleccionada = (String) parent.getItemAtPosition(position);
-
-                // Llama a un método para obtener la información de la fecha seleccionada
                 obtenerInformacionComidas(fechaSeleccionada, correo);
+                textFecha.setText(fecha);
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se ha seleccionado ninguna fecha
-            }
-        });
+        }, anio, mes, dia);
+        dpd.show();
     }
 
 
-    private String formatoFecha(String fecha) {
-        try {
-            SimpleDateFormat fechaOriginal = new SimpleDateFormat("yyyyMMdd");
-            SimpleDateFormat fechaFormateada = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = fechaOriginal.parse(fecha);
-            return fechaFormateada.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return fecha;
-    }
+
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
         String[] infoCarbohidratos = new String[3];
