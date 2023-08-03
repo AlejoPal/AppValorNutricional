@@ -90,7 +90,7 @@ public class InicarSesion extends AppCompatActivity {
                     DatabaseReference mRootReference = database.getReference();
 
                     // Obtener la referencia al nodo del usuario
-                    DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo.getText().toString().replace(".", ""));
+                    DatabaseReference usuarioRef = mRootReference.child("Usuario").child(email.replace(".", ""));
 
 
                     //Conseguir fecha

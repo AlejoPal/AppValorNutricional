@@ -1,16 +1,21 @@
 package com.aproyectousco.valornutricionalalimentoscolombianos;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,137 +26,163 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 
 public class InformacionGeneral extends AppCompatActivity {
 
-    TextView textonombre;
+    ViewPager2 viewPager2;
 
-    Spinner spinner;
+    TextView textonombre;
+    TextView textFecha;
+
     Button btnIragregar;
+
+    String correo, fechahoy;
+    DatabaseReference mRootReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_general);
 
-        spinner = findViewById(R.id.spinnerfechas);
+        textFecha = findViewById(R.id.fecha);
         btnIragregar = findViewById(R.id.btnIragregar);
+        viewPager2 = findViewById(R.id.viewpager);
 
-        //Se recupera el correo de inicio de sesion o de registrar
+        // Se recupera el correo de inicio de sesión o de registro
         Intent intent = getIntent();
-        String Correo = intent.getStringExtra("Correo");
+        String[] comidas = {"Desayuno, Almuerzo, Cena"};
+        correo = intent.getStringExtra("Correo");
 
+
+        Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
 
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRootReference = database.getReference();
+        mRootReference = database.getReference();
 
         // Obtener la referencia al nodo del usuario
-        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(Correo);
+        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo);
 
-
-        //Boton Para ir a agregar una comida
+        // Botón para ir a agregar una comida
         btnIragregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
-                intent.putExtra("Correo", Correo);
-                startActivity(intent);
+                intent.putExtra("Correo", correo);
+                startActivityForResult(intent, 1); // Usamos el código de solicitud 1
+
             }
         });
 
-        // Cargar fechas a un spinner
-        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
-            Date date = new Date();
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> fechas = new ArrayList<>();
+                // Verificar si existe el nodo del usuario
+                if (dataSnapshot.exists()) {
+                    // Obtener el valor del nombre desde el dataSnapshot
+                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
 
-                for (DataSnapshot fechaSnapshot : dataSnapshot.getChildren()) {
-                    if (!fechaSnapshot.getKey().equals("Nombre")) {
-                        String fecha = fechaSnapshot.getKey();
-                        fechas.add(fecha);
-                    }
-                }
-
-                // Aquí puedes utilizar la lista de fechas para mostrarlas en el Spinner
-                // Por ejemplo, utilizando un ArrayAdapter
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(InformacionGeneral.this, android.R.layout.simple_spinner_item, fechas);
-                spinner.setAdapter(adapter);
-
-                SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
-                String fechaHoy= fechaC.format(date);
-                // Buscar la posición de la fecha de hoy en la lista
-                int position = fechas.indexOf(fechaHoy);
-
-                // Seleccionar la fecha de hoy si está en la lista
-                if (position != -1) {
-                    spinner.setSelection(position);
+                    // Mostrar el nombre en el TextView correspondiente
+                    textonombre = findViewById(R.id.NombreUsuario);
+                    textonombre.setText(nombre);
+                } else {
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejo de errores en caso de fallo en la lectura de la base de datos
-            }
-        });
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String fechaSeleccionada = (String) parent.getItemAtPosition(position);
-
-                // Llama a un método para obtener la información de la fecha seleccionada
-                obtenerInformacionComidas(fechaSeleccionada, Correo);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se ha seleccionado ninguna fecha
+                Toast.makeText(InformacionGeneral.this, "Error al leer los datos de la base de datos", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        // Crear el listener para recuperar el valor del nombre
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
-
-                    textonombre = findViewById(R.id.NombreUsuario);
-                    // Hacer algo con el valor del nombre
-                    textonombre.setText(nombre);
-                    Log.d("TAG", "Nombre: " + nombre);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar errores de lectura de la base de datos
-                Log.d("TAG", "Error al leer la base de datos: " + databaseError.getMessage());
-            }
-        };
-
-        // Agregar el listener a la referencia del usuario
-        usuarioRef.addValueEventListener(valueEventListener);
+        Date date = new Date();
+        SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
+        fechahoy = fechaC.format(date);
 
 
+
+        obtenerInformacionComidas(fechahoy, correo);
+
+        SimpleDateFormat fecha2 = new SimpleDateFormat("dd/MM/yyyy");
+        String sfecha = fecha2.format(date);
+
+        textFecha.setText(sfecha);
 
 
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Actualizar la información cada vez que la actividad se vuelva visible
+        obtenerInformacionComidas(fechahoy, correo);
+
+        // Obtener el nombre del usuario y mostrarlo en el TextView correspondiente
+        DatabaseReference usuarioRef = mRootReference.child("Usuario").child(correo);
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String nombre = dataSnapshot.child("Nombre").getValue(String.class);
+                    textonombre.setText(nombre);
+                } else {
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(InformacionGeneral.this, "Error al leer los datos de la base de datos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void abrirCalenadario(View view){
+        Calendar cal = Calendar.getInstance();
+        int anio = cal.get(Calendar.YEAR);
+        int mes = cal.get(Calendar.MONTH);
+        int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this,R.style.DatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String fecha = dayOfMonth + "/" + String.format("%02d", (month + 1)) + "/" + year; // Formato de mes con dos dígitos
+                String fechaSeleccionada = "" + year + String.format("%02d", (month + 1)) + String.format("%02d", dayOfMonth); // Formato con ceros iniciales para mes y día
+
+                obtenerInformacionComidas(fechaSeleccionada, correo);
+                textFecha.setText(fecha);
+            }
+        }, anio, mes, dia);
+        dpd.show();
+    }
+
+
 
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
+        String[] infoCarbohidratos = new String[3];
+        String[] infoColesterol = new String[3];
+        String[] infoEnergia = new String[3];
+        String[] infoGsat = new String[3];
+        String[] infoLipidos = new String[3];
+        String[] infoProteina = new String[3];
+        String[] infoSodio = new String[3];
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootReference = database.getReference();
 
@@ -162,6 +193,7 @@ public class InformacionGeneral extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     for (DataSnapshot comidaSnapshot : dataSnapshot.getChildren()) {
                         String comida = comidaSnapshot.getKey();
 
@@ -174,65 +206,67 @@ public class InformacionGeneral extends AppCompatActivity {
                         Double proteinas = comidaSnapshot.child("Proteina").getValue(Double.class);
                         Double sodio = comidaSnapshot.child("Sodio").getValue(Double.class);
 
-                        // Asignar los valores a los TextView correspondientes
+                        // Asignar los valores a los arrays correspondientes
                         if (comida.equals("Desayuno")) {
-                            TextView txtCarbohidratosD = findViewById(R.id.txtcarbohidratosD);
-                            TextView txtColesterolD = findViewById(R.id.txtcolesterolD);
-                            TextView txtEnergiaD = findViewById(R.id.txtenergiaD);
-                            TextView txtSaturadasD = findViewById(R.id.txtgsaturadasD);
-                            TextView txtLipidosD = findViewById(R.id.txtlipidosD);
-                            TextView txtProteinasD = findViewById(R.id.txtproteinasD);
-                            TextView txtSodioD = findViewById(R.id.txtsodioD);
-
-
-                            txtCarbohidratosD.setText(String.valueOf(carbohidratos));
-                            txtColesterolD.setText(String.valueOf(colesterol));
-                            txtEnergiaD.setText(String.valueOf(energia));
-                            txtSaturadasD.setText(String.valueOf(gsat));
-                            txtLipidosD.setText(String.valueOf(lipidos));
-                            txtProteinasD.setText(String.valueOf(proteinas));
-                            txtSodioD.setText(String.valueOf(sodio));
-
+                            infoCarbohidratos[0] = String.valueOf(carbohidratos);
+                            infoColesterol[0] = String.valueOf(colesterol);
+                            infoEnergia[0] = String.valueOf(energia);
+                            infoGsat[0] = String.valueOf(gsat);
+                            infoLipidos[0] = String.valueOf(lipidos);
+                            infoProteina[0] = String.valueOf(proteinas);
+                            infoSodio[0] = String.valueOf(sodio);
                         } else if (comida.equals("Almuerzo")) {
-                            TextView txtCarbohidratosA = findViewById(R.id.txtcarbohidratosA);
-                            TextView txtColesterolA = findViewById(R.id.txtcolesterolA);
-                            TextView txtEnergiaA = findViewById(R.id.txtenergiaA);
-                            TextView txtSaturadasA = findViewById(R.id.txtgsaturadasA);
-                            TextView txtLipidosA = findViewById(R.id.txtlipidosA);
-                            TextView txtProteinasA = findViewById(R.id.txtproteinasA);
-                            TextView txtSodioA = findViewById(R.id.txtsodioA);
-
-
-                            txtCarbohidratosA.setText(String.valueOf(carbohidratos));
-                            txtColesterolA.setText(String.valueOf(colesterol));
-                            txtEnergiaA.setText(String.valueOf(energia));
-                            txtSaturadasA.setText(String.valueOf(gsat));
-                            txtLipidosA.setText(String.valueOf(lipidos));
-                            txtProteinasA.setText(String.valueOf(proteinas));
-                            txtSodioA.setText(String.valueOf(sodio));
-
+                            infoCarbohidratos[1] = String.valueOf(carbohidratos);
+                            infoColesterol[1] = String.valueOf(colesterol);
+                            infoEnergia[1] = String.valueOf(energia);
+                            infoGsat[1] = String.valueOf(gsat);
+                            infoLipidos[1] = String.valueOf(lipidos);
+                            infoProteina[1] = String.valueOf(proteinas);
+                            infoSodio[1] = String.valueOf(sodio);
                         } else if (comida.equals("Cena")) {
-
-                            TextView txtCarbohidratosC = findViewById(R.id.txtcarbohidratosC);
-                            TextView txtColesterolC = findViewById(R.id.txtcolesterolC);
-                            TextView txtEnergiaC = findViewById(R.id.txtenergiaC);
-                            TextView txtSaturadasC = findViewById(R.id.txtgsaturadasC);
-                            TextView txtLipidosC = findViewById(R.id.txtlipidosC);
-                            TextView txtProteinasC = findViewById(R.id.txtproteinasC);
-                            TextView txtSodioC = findViewById(R.id.txtsodioC);
-
-
-                            txtCarbohidratosC.setText(String.valueOf(carbohidratos));
-                            txtColesterolC.setText(String.valueOf(colesterol));
-                            txtEnergiaC.setText(String.valueOf(energia));
-                            txtSaturadasC.setText(String.valueOf(gsat));
-                            txtLipidosC.setText(String.valueOf(lipidos));
-                            txtProteinasC.setText(String.valueOf(proteinas));
-                            txtSodioC.setText(String.valueOf(sodio));
+                            infoCarbohidratos[2] = String.valueOf(carbohidratos);
+                            infoColesterol[2] = String.valueOf(colesterol);
+                            infoEnergia[2] = String.valueOf(energia);
+                            infoGsat[2] = String.valueOf(gsat);
+                            infoLipidos[2] = String.valueOf(lipidos);
+                            infoProteina[2] = String.valueOf(proteinas);
+                            infoSodio[2] = String.valueOf(sodio);
                         }
                     }
+
+                    // Crear los objetos ViewPagerItem y configurar el adaptador en el ViewPager2
+                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", infoCarbohidratos[0], infoColesterol[0], infoEnergia[0], infoGsat[0], infoLipidos[0], infoProteina[0], infoSodio[0]);
+                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", infoCarbohidratos[1], infoColesterol[1], infoEnergia[1], infoGsat[1], infoLipidos[1], infoProteina[1], infoSodio[1]);
+                    ViewPagerItem cena = new ViewPagerItem("Cena", infoCarbohidratos[2], infoColesterol[2], infoEnergia[2], infoGsat[2], infoLipidos[2], infoProteina[2], infoSodio[2]);
+
+                    ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
+                    viewPagerItems.add(desayuno);
+                    viewPagerItems.add(almuerzo);
+                    viewPagerItems.add(cena);
+
+                    VPAdapter vpAdapter = new VPAdapter(viewPagerItems);
+                    viewPager2.setAdapter(vpAdapter);
+
+                    // Añade esta línea para notificar al adaptador que los datos han cambiado
+                    vpAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(InformacionGeneral.this, "No entro a la base de datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
+
+                    // Si no se encontraron datos en la base de datos, crear un ViewPagerItem con valores predeterminados en 0
+                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem cena = new ViewPagerItem("Cena", "0", "0", "0", "0", "0", "0", "0");
+
+                    ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
+                    viewPagerItems.add(desayuno);
+                    viewPagerItems.add(almuerzo);
+                    viewPagerItems.add(cena);
+
+                    VPAdapter vpAdapter = new VPAdapter(viewPagerItems);
+                    viewPager2.setAdapter(vpAdapter);
+
+                    // Añade esta línea para notificar al adaptador que los datos han cambiado
+                    vpAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -243,6 +277,4 @@ public class InformacionGeneral extends AppCompatActivity {
         });
     }
 
-
 }
-

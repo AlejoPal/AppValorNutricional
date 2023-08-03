@@ -28,25 +28,24 @@
 
         <Button
             android:id="@+id/btninicar"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
             android:fontFamily="@font/roboto"
             android:text="@string/btn_inicarsesion"
-            android:textColor="@color/white"
-            android:background="@drawable/rounded_button"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/white" />
 
 
         <Button
             android:id="@+id/btnregistrarse"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
             android:fontFamily="@font/roboto"
             android:text="@string/btn_registrarse"
-            android:textColor="@color/white"
-            android:background="@drawable/rounded_button"
-            android:layout_marginTop="8dp"
-            />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
