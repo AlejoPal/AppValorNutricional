@@ -3,17 +3,23 @@
     <string name="app_nombre">MiNutriCol</string>
 
 
+
     <string name="btn_inicarsesion">Iniciar sesion</string>
     <string name="btn_registrarse">Registrarse</string>
     <string name="btn_agregarComida">Agregar comida</string>
     <string name="btn_calendario">Abrir Calendario</string>
+    <string name="btn_ir_inicarsesion">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="btn_ir_registrarse">¿No tienes cuenta? Registraste</string>
 
     <string name="hintEmail">Email</string>
     <string name="hintContrasena">Contraseña</string>
-    <string name="hintName">Nombre Completo</string>
+    <string name="hintName">Nombre</string>
     <string name="hintBuscar">Buscar</string>
 
-    <string name="txtbien">Bienvenido </string>
+    <string name="txtbien">Bienvenido, </string>
+    <string name="txtRegistrar">Registrar</string>
+    <string name="txtInicarSesion">Iniciar Sesion</string>
+    <string name="txtAgregarComida">Agregar Comida</string>
     <string name="txtseleccionfecha">Por favor seleccione una fecha </string>
     <string name="txtdesayuno">Desayuno</string>
     <string name="txtAlmuerzo">Almuerzo</string>

@@ -17,35 +17,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:background="@drawable/fondobase4"
+
 >
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            app:srcCompat="@drawable/nameappnobg" />
+            app:srcCompat="@drawable/logoapp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/sansationbold"
+            android:text="@string/app_nombre"
+            android:textAlignment="center"
+            android:textColor="@color/colornombreapp"
+            android:textSize="50sp" />
 
         <Button
             android:id="@+id/btninicar"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/rounded_button"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/sansationbold"
             android:text="@string/btn_inicarsesion"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
 
         <Button
             android:id="@+id/btnregistrarse"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_button"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/sansationbold"
             android:text="@string/btn_registrarse"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
