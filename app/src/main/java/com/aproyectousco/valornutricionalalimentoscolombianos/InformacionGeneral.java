@@ -63,7 +63,27 @@ public class InformacionGeneral extends AppCompatActivity {
 
         Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
 
+        textFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int anio = cal.get(Calendar.YEAR);
+                int mes = cal.get(Calendar.MONTH);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
 
+                DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this,R.style.DatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String fecha = dayOfMonth + "/" + String.format("%02d", (month + 1)) + "/" + year; // Formato de mes con dos dígitos
+                        String fechaSeleccionada = "" + year + String.format("%02d", (month + 1)) + String.format("%02d", dayOfMonth); // Formato con ceros iniciales para mes y día
+
+                        obtenerInformacionComidas(fechaSeleccionada, correo);
+                        textFecha.setText(fecha);
+                    }
+                }, anio, mes, dia);
+                dpd.show();
+            }
+        });
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mRootReference = database.getReference();
@@ -151,25 +171,6 @@ public class InformacionGeneral extends AppCompatActivity {
         });
     }
 
-
-    public void abrirCalenadario(View view){
-        Calendar cal = Calendar.getInstance();
-        int anio = cal.get(Calendar.YEAR);
-        int mes = cal.get(Calendar.MONTH);
-        int dia = cal.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog dpd = new DatePickerDialog(InformacionGeneral.this,R.style.DatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String fecha = dayOfMonth + "/" + String.format("%02d", (month + 1)) + "/" + year; // Formato de mes con dos dígitos
-                String fechaSeleccionada = "" + year + String.format("%02d", (month + 1)) + String.format("%02d", dayOfMonth); // Formato con ceros iniciales para mes y día
-
-                obtenerInformacionComidas(fechaSeleccionada, correo);
-                textFecha.setText(fecha);
-            }
-        }, anio, mes, dia);
-        dpd.show();
-    }
 
 
 

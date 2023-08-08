@@ -8,7 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fondo">#ADFF76</color>
-    <color name="botones">#E27318F3</color>
+    <color name="botones">#540883</color>
+    <color name="colorDivider">#524D4D</color>
+    <color name="colornombreapp">#14AB23</color>
     <color name="colorHintOscuro">#40000000</color>
     <color name="colortextos">#CD000000</color>
 
