@@ -50,6 +50,14 @@ public class AgregarInfo extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     DatabaseReference mRootReference;
+    List<String> listaAlimentos = new ArrayList<>();
+    final double[] energia = {0.0};
+    final double[] proteina = {0.0};
+    final double[] carbohidratos = {0.0};
+    final double[] colesterol = {0.0};
+    final double[] lipidos = {0.0};
+    final double[] gsat = {0.0};
+    final double[] sodio = {0.0};
 
 
     @Override
@@ -85,6 +93,7 @@ public class AgregarInfo extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private void obtenerDatosColumnaDesdeSheets() {
 
+        Button agregarButton = findViewById(R.id.btnAgregar);
         Button desayunoButton = findViewById(R.id.btnAgregarDesayuno);
         Button almuerzoButton = findViewById(R.id.btnAgregarAlmuerzo);
         Button cenaButton = findViewById(R.id.btnAgregarCena);
@@ -173,13 +182,15 @@ public class AgregarInfo extends AppCompatActivity {
 
                         // Aquí puedes acceder a los demás atributos del alimento y hacer lo que necesites
                         String nombre = alimentoSeleccionado.getNombre();
-                        String energia = alimentoSeleccionado.getEnergia();
-                        String proteina = alimentoSeleccionado.getProteina();
-                        String carbohidratos = alimentoSeleccionado.getCarbohidratos();
-                        String colesterol = alimentoSeleccionado.getColesterol();
-                        String lipidos = alimentoSeleccionado.getLipidos();
-                        String gsat = alimentoSeleccionado.getGsat();
-                        String sodio = alimentoSeleccionado.getSodio();
+                        String Venergia = alimentoSeleccionado.getEnergia();
+                        String Vproteina = alimentoSeleccionado.getProteina();
+                        String Vcarbohidratos = alimentoSeleccionado.getCarbohidratos();
+                        String Vcolesterol = alimentoSeleccionado.getColesterol();
+                        String Vlipidos = alimentoSeleccionado.getLipidos();
+                        String Vgsat = alimentoSeleccionado.getGsat();
+                        String Vsodio = alimentoSeleccionado.getSodio();
+
+
                         // Hacer algo con los datos obtenidos
 
                         // Conseguir fecha y correo
@@ -191,11 +202,51 @@ public class AgregarInfo extends AppCompatActivity {
                         Intent intent = getIntent();
                         String Correo = intent.getStringExtra("Correo");
 
+                        agregarButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                listaAlimentos.add(nombre);
 
+                                // Convertir los valores de tipo String a double
+                                double energiaValue = Double.parseDouble(Venergia);
+                                double proteinaValue = Double.parseDouble(Vproteina);
+                                double carbohidratosValue = Double.parseDouble(Vcarbohidratos);
+                                double colesterolValue = Double.parseDouble(Vcolesterol);
+                                double lipidosValue = Double.parseDouble(Vlipidos);
+                                double gsatValue = Double.parseDouble(Vgsat);
+                                double sodioValue = Double.parseDouble(Vsodio);
+
+                                // Sumar los valores convertidos a las variables
+                                energia[0] += energiaValue;
+                                proteina[0] += proteinaValue;
+                                carbohidratos[0] += carbohidratosValue;
+                                colesterol[0] += colesterolValue;
+                                lipidos[0] += lipidosValue;
+                                gsat[0] += gsatValue;
+                                sodio[0] += sodioValue;
+
+                                // Mostrar los valores en la consola
+                                Log.d("Valores", "----------------");
+                                Log.d("Valores", "Energía: " + energia[0]);
+                                Log.d("Valores", "Proteína: " + proteina[0]);
+                                Log.d("Valores", "Carbohidratos: " + carbohidratos[0]);
+                                Log.d("Valores", "Colesterol: " + colesterol[0]);
+                                Log.d("Valores", "Lípidos: " + lipidos[0]);
+                                Log.d("Valores", "Gsat: " + gsat[0]);
+                                Log.d("Valores", "Sodio: " + sodio[0]);
+
+                                // Mostrar listaAlimentos en la consola
+                                Log.d("Lista de Alimentos", "Contenido de listaAlimentos:");
+                                for (String alimento : listaAlimentos) {
+                                    Log.d("Lista de Alimentos", alimento);
+                                }
+                            }
+
+                        });
                         desayunoButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno",listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                             }
@@ -204,7 +255,7 @@ public class AgregarInfo extends AppCompatActivity {
                         almuerzoButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo",listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                                 }
@@ -213,7 +264,7 @@ public class AgregarInfo extends AppCompatActivity {
                         cenaButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", Double.parseDouble(proteina), Double.parseDouble(energia), Double.parseDouble(carbohidratos), Double.parseDouble(lipidos), Double.parseDouble(sodio), Double.parseDouble(gsat), Double.parseDouble(colesterol));
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                                 }
@@ -228,7 +279,7 @@ public class AgregarInfo extends AppCompatActivity {
         }.execute();
     }
 
-    private void cargarDatosFirebaseI(String fecha, String correo, String comida, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
+    private void cargarDatosFirebaseI(String fecha, String correo, String comida,List<String> alimentos, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference mRootReference = database.getReference();
@@ -236,7 +287,7 @@ public class AgregarInfo extends AppCompatActivity {
             // Obtener la referencia al nodo del usuario
             DatabaseReference fechaRef = mRootReference.child("Usuario").child(correo).child(fecha).child(comida);
 
-            fechaRef.setValue(infoAlimenticia(proteina, energia, carbohidratos, lipidos, sales, gsat, colesterol))
+            fechaRef.setValue(infoAlimenticia(alimentos, proteina, energia, carbohidratos, lipidos, sales, gsat, colesterol))
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -258,8 +309,9 @@ public class AgregarInfo extends AppCompatActivity {
 
 
 
-    private Object infoAlimenticia(double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
+    private Object infoAlimenticia(List<String> alimentos,double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
         Map<String, Object> fechas = new HashMap<>();
+        fechas.put("Alimentos", alimentos);
         fechas.put("Proteina", proteina);
         fechas.put("Energia", energia);
         fechas.put("Carbohidratos", carbohidratos);

@@ -48,6 +48,15 @@
 
             android:textColor="@color/black" />
 
+        <Button
+            android:id="@+id/btnAgregar"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/txtAgregar"
+            android:textColor="#FFFFFF" />
+
     </LinearLayout>
 
     <Button
