@@ -15,6 +15,7 @@
     <string name="hintContrasena">Contraseña</string>
     <string name="hintName">Nombre</string>
     <string name="hintBuscar">Buscar</string>
+    <string name="hintPeso">Peso(gr)</string>
 
     <string name="txtbien">Bienvenido, </string>
     <string name="txtRegistrar">Registrar</string>

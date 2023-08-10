@@ -46,6 +46,7 @@ public class AgregarInfo extends AppCompatActivity {
 
     TextView verificar;
     private AutoCompleteTextView autoCompleteTextView;
+    private TextView peso;
     private List<String> valuesList;
 
     private FirebaseAuth mAuth;
@@ -70,6 +71,7 @@ public class AgregarInfo extends AppCompatActivity {
 
         // Obtén una referencia al AutoCompleteTextView desde el layout
         autoCompleteTextView = findViewById(R.id.txtBusqueda);
+        peso = findViewById(R.id.txtpeso);
 
 
         // Obtiene los valores de la columna desde Google Sheets
@@ -190,6 +192,15 @@ public class AgregarInfo extends AppCompatActivity {
                         String Vgsat = alimentoSeleccionado.getGsat();
                         String Vsodio = alimentoSeleccionado.getSodio();
 
+                        Log.d("INFOALIMENTOS", "Nombre: " + nombre);
+                        Log.d("INFOALIMENTOS", "Energia: " + Venergia);
+                        Log.d("INFOALIMENTOS", "Proteina: " + Vproteina);
+                        Log.d("INFOALIMENTOS", "Carbohidratos: " + Vcarbohidratos);
+                        Log.d("INFOALIMENTOS", "Colesterol: " + Vcolesterol);
+                        Log.d("INFOALIMENTOS", "Lipidos: " + Vlipidos);
+                        Log.d("INFOALIMENTOS", "Gsat: " + Vgsat);
+                        Log.d("INFOALIMENTOS", "Sodio: " + Vsodio);
+
 
                         // Hacer algo con los datos obtenidos
 
@@ -202,19 +213,31 @@ public class AgregarInfo extends AppCompatActivity {
                         Intent intent = getIntent();
                         String Correo = intent.getStringExtra("Correo");
 
+
                         agregarButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 listaAlimentos.add(nombre);
 
+                                String pesoText = peso.getText().toString().trim();
+                                String autoCompleteText = autoCompleteTextView.getText().toString().trim();
+
+                                // Verificar que ambos campos tengan valores
+                                if (pesoText.isEmpty() || autoCompleteText.isEmpty()) {
+                                    Toast.makeText(AgregarInfo.this, "Por favor ingresa el peso y selecciona un alimento", Toast.LENGTH_SHORT).show();
+                                    return; // Salir del método si no se cumplen los requisitos
+                                }
+
+                                double pesoValue = Double.parseDouble(peso.getText().toString())/100;
+
                                 // Convertir los valores de tipo String a double
-                                double energiaValue = Double.parseDouble(Venergia);
-                                double proteinaValue = Double.parseDouble(Vproteina);
-                                double carbohidratosValue = Double.parseDouble(Vcarbohidratos);
-                                double colesterolValue = Double.parseDouble(Vcolesterol);
-                                double lipidosValue = Double.parseDouble(Vlipidos);
-                                double gsatValue = Double.parseDouble(Vgsat);
-                                double sodioValue = Double.parseDouble(Vsodio);
+                                double energiaValue = Double.parseDouble(Venergia) * pesoValue;
+                                double proteinaValue = Double.parseDouble(Vproteina) * pesoValue;
+                                double carbohidratosValue = Double.parseDouble(Vcarbohidratos) * pesoValue;
+                                double colesterolValue = Double.parseDouble(Vcolesterol) * pesoValue;
+                                double lipidosValue = Double.parseDouble(Vlipidos) * pesoValue;
+                                double gsatValue = Double.parseDouble(Vgsat) * pesoValue;
+                                double sodioValue = Double.parseDouble(Vsodio) * pesoValue;
 
                                 // Sumar los valores convertidos a las variables
                                 energia[0] += energiaValue;
@@ -225,21 +248,12 @@ public class AgregarInfo extends AppCompatActivity {
                                 gsat[0] += gsatValue;
                                 sodio[0] += sodioValue;
 
-                                // Mostrar los valores en la consola
-                                Log.d("Valores", "----------------");
-                                Log.d("Valores", "Energía: " + energia[0]);
-                                Log.d("Valores", "Proteína: " + proteina[0]);
-                                Log.d("Valores", "Carbohidratos: " + carbohidratos[0]);
-                                Log.d("Valores", "Colesterol: " + colesterol[0]);
-                                Log.d("Valores", "Lípidos: " + lipidos[0]);
-                                Log.d("Valores", "Gsat: " + gsat[0]);
-                                Log.d("Valores", "Sodio: " + sodio[0]);
+                                Toast.makeText(AgregarInfo.this, "Informacion Guardada", Toast.LENGTH_SHORT).show();
+                                autoCompleteTextView.setText("");  // Borra el valor ingresado
+                                autoCompleteTextView.setHint("Buscar");  // Restaura el hint
+                                peso.setText("");
+                                peso.setHint("Peso(gr)");
 
-                                // Mostrar listaAlimentos en la consola
-                                Log.d("Lista de Alimentos", "Contenido de listaAlimentos:");
-                                for (String alimento : listaAlimentos) {
-                                    Log.d("Lista de Alimentos", alimento);
-                                }
                             }
 
                         });

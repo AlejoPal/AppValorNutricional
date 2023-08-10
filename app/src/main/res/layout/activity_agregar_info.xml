@@ -46,7 +46,20 @@
             android:completionThreshold="1"
             android:hint="@string/hintBuscar"
 
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/botones" />
+
+        <EditText
+            android:id="@+id/txtpeso"
+            android:background="@drawable/rounded_edittext_bg"
+            android:layout_marginTop="10dp"
+            android:layout_width="330dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:fontFamily="@font/sansationbold"
+            android:hint="@string/hintPeso"
+            android:textColorHint="@color/botones"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btnAgregar"
