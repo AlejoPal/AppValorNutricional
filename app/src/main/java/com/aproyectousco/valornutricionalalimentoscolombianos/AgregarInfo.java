@@ -181,7 +181,14 @@ public class AgregarInfo extends AppCompatActivity {
                         String gsat = alimentoSeleccionado.getGsat();
                         String sodio = alimentoSeleccionado.getSodio();
                         // Hacer algo con los datos obtenidos
-
+                        Log.d("INFOALIMENTOS", "Nombre: " + nombre);
+                        Log.d("INFOALIMENTOS", "Energia: " + energia);
+                        Log.d("INFOALIMENTOS", "Proteina: " + proteina);
+                        Log.d("INFOALIMENTOS", "Carbohidratos: " + carbohidratos);
+                        Log.d("INFOALIMENTOS", "Colesterol: " + colesterol);
+                        Log.d("INFOALIMENTOS", "Lipidos: " + lipidos);
+                        Log.d("INFOALIMENTOS", "Gsat: " + gsat);
+                        Log.d("INFOALIMENTOS", "Sodio: " + sodio);
                         // Conseguir fecha y correo
                         Date date = new Date();
                         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
