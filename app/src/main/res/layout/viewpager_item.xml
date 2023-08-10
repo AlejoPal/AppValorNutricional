@@ -11,6 +11,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -236,10 +237,19 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
+
         <View
             android:layout_width="320dp"
             android:layout_height="2dp"
             android:background="@drawable/divider_line" />
+
+        <TextView
+            android:id="@+id/txtAlimentos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:fontFamily="@font/sansationbold"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

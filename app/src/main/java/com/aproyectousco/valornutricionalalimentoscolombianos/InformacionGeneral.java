@@ -176,6 +176,7 @@ public class InformacionGeneral extends AppCompatActivity {
 
 
     private void obtenerInformacionComidas(String fechaSeleccionada, String correo) {
+        List<String>[] infoAlimentos = new ArrayList[3];
         String[] infoCarbohidratos = new String[3];
         String[] infoColesterol = new String[3];
         String[] infoEnergia = new String[3];
@@ -199,6 +200,7 @@ public class InformacionGeneral extends AppCompatActivity {
                         String comida = comidaSnapshot.getKey();
 
                         // Obtener la información de la comida actual
+                        List<String> alimentosList = new ArrayList<>();
                         Double carbohidratos = comidaSnapshot.child("Carbohidratos").getValue(Double.class);
                         Double colesterol = comidaSnapshot.child("Colesterol").getValue(Double.class);
                         Double energia = comidaSnapshot.child("Energia").getValue(Double.class);
@@ -207,8 +209,16 @@ public class InformacionGeneral extends AppCompatActivity {
                         Double proteinas = comidaSnapshot.child("Proteina").getValue(Double.class);
                         Double sodio = comidaSnapshot.child("Sodio").getValue(Double.class);
 
+                        DataSnapshot alimentosSnapshot = comidaSnapshot.child("Alimentos");
+                        for (DataSnapshot alimentoSnapshot : alimentosSnapshot.getChildren()) {
+                            String valorAlimento = alimentoSnapshot.getValue(String.class);
+                            alimentosList.add(valorAlimento);
+                        }
+
+
                         // Asignar los valores a los arrays correspondientes
                         if (comida.equals("Desayuno")) {
+                            infoAlimentos[0] = alimentosList;
                             infoCarbohidratos[0] = String.valueOf(carbohidratos);
                             infoColesterol[0] = String.valueOf(colesterol);
                             infoEnergia[0] = String.valueOf(energia);
@@ -217,6 +227,7 @@ public class InformacionGeneral extends AppCompatActivity {
                             infoProteina[0] = String.valueOf(proteinas);
                             infoSodio[0] = String.valueOf(sodio);
                         } else if (comida.equals("Almuerzo")) {
+                            infoAlimentos[1] = alimentosList;
                             infoCarbohidratos[1] = String.valueOf(carbohidratos);
                             infoColesterol[1] = String.valueOf(colesterol);
                             infoEnergia[1] = String.valueOf(energia);
@@ -225,6 +236,7 @@ public class InformacionGeneral extends AppCompatActivity {
                             infoProteina[1] = String.valueOf(proteinas);
                             infoSodio[1] = String.valueOf(sodio);
                         } else if (comida.equals("Cena")) {
+                            infoAlimentos[2] = alimentosList;
                             infoCarbohidratos[2] = String.valueOf(carbohidratos);
                             infoColesterol[2] = String.valueOf(colesterol);
                             infoEnergia[2] = String.valueOf(energia);
@@ -235,10 +247,11 @@ public class InformacionGeneral extends AppCompatActivity {
                         }
                     }
 
+
                     // Crear los objetos ViewPagerItem y configurar el adaptador en el ViewPager2
-                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", infoCarbohidratos[0], infoColesterol[0], infoEnergia[0], infoGsat[0], infoLipidos[0], infoProteina[0], infoSodio[0]);
-                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", infoCarbohidratos[1], infoColesterol[1], infoEnergia[1], infoGsat[1], infoLipidos[1], infoProteina[1], infoSodio[1]);
-                    ViewPagerItem cena = new ViewPagerItem("Cena", infoCarbohidratos[2], infoColesterol[2], infoEnergia[2], infoGsat[2], infoLipidos[2], infoProteina[2], infoSodio[2]);
+                    ViewPagerItem desayuno = new ViewPagerItem(infoAlimentos[0],"Desayuno", infoCarbohidratos[0], infoColesterol[0], infoEnergia[0], infoGsat[0], infoLipidos[0], infoProteina[0], infoSodio[0]);
+                    ViewPagerItem almuerzo = new ViewPagerItem(infoAlimentos[1],"Almuerzo", infoCarbohidratos[1], infoColesterol[1], infoEnergia[1], infoGsat[1], infoLipidos[1], infoProteina[1], infoSodio[1]);
+                    ViewPagerItem cena = new ViewPagerItem(infoAlimentos[2],"Cena", infoCarbohidratos[2], infoColesterol[2], infoEnergia[2], infoGsat[2], infoLipidos[2], infoProteina[2], infoSodio[2]);
 
                     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
                     viewPagerItems.add(desayuno);
@@ -254,9 +267,9 @@ public class InformacionGeneral extends AppCompatActivity {
                     Toast.makeText(InformacionGeneral.this, "No se encontraron datos en la base de datos", Toast.LENGTH_SHORT).show();
 
                     // Si no se encontraron datos en la base de datos, crear un ViewPagerItem con valores predeterminados en 0
-                    ViewPagerItem desayuno = new ViewPagerItem("Desayuno", "0", "0", "0", "0", "0", "0", "0");
-                    ViewPagerItem almuerzo = new ViewPagerItem("Almuerzo", "0", "0", "0", "0", "0", "0", "0");
-                    ViewPagerItem cena = new ViewPagerItem("Cena", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem desayuno = new ViewPagerItem(infoAlimentos[0],"Desayuno", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem almuerzo = new ViewPagerItem(infoAlimentos[1],"Almuerzo", "0", "0", "0", "0", "0", "0", "0");
+                    ViewPagerItem cena = new ViewPagerItem(infoAlimentos[2],"Cena", "0", "0", "0", "0", "0", "0", "0");
 
                     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
                     viewPagerItems.add(desayuno);

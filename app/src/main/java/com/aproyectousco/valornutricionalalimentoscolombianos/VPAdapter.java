@@ -41,6 +41,17 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
         holder.txProteinas.setText(viewPagerItem.proteinas);
         holder.txSodio.setText(viewPagerItem.sodio);
 
+        if (!viewPagerItem.alimentos.isEmpty()) {
+            StringBuilder alimentosText = new StringBuilder();
+            for (String alimento : viewPagerItem.alimentos) {
+                alimentosText.append(alimento).append("\n");
+            }
+            holder.txtalimentos.setVisibility(View.VISIBLE); // Mostrar el TextView
+            holder.txtalimentos.setText(alimentosText.toString());
+        } else {
+            holder.txtalimentos.setVisibility(View.GONE); // Ocultar el TextView
+        }
+
 
     }
 
@@ -50,9 +61,10 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView txtiempo, txCarbohidratos, txColesterol, txEnergia, txSaturadas, txLipidos, txProteinas, txSodio;
+        TextView txtalimentos, txtiempo, txCarbohidratos, txColesterol, txEnergia, txSaturadas, txLipidos, txProteinas, txSodio;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            txtalimentos = itemView.findViewById(R.id.txtAlimentos);
             txtiempo = itemView.findViewById(R.id.tiempo);
             txCarbohidratos = itemView.findViewById(R.id.txtcarbohidratos);
             txColesterol = itemView.findViewById(R.id.txtcolesterol);
