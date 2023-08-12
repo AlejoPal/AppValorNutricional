@@ -139,6 +139,15 @@ public class AgregarInfo extends AppCompatActivity {
                         String gsat = nutricionObj.getString("Gsat");
                         String sodio = nutricionObj.getString("Sodio");
 
+                        Log.d("CLASE", "Nombre: " + nombre);
+                        Log.d("CLASE", "Energia: " + energia);
+                        Log.d("CLASE", "Proteina: " + proteina);
+                        Log.d("CLASE", "Carbohidratos: " + carbohidratos);
+                        Log.d("CLASE", "Colesterol: " + colesterol);
+                        Log.d("CLASE", "Lipidos: " + lipidos);
+                        Log.d("CLASE", "Gsat: " + gsat);
+                        Log.d("CLASE", "Sodio: " + sodio);
+
                         // Crear una instancia de Alimento y asignar los valores
                         Alimento alimento = new Alimento();
                         alimento.setNombre(nombre);
