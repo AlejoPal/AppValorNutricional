@@ -51,7 +51,9 @@ public class AgregarInfo extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     DatabaseReference mRootReference;
-    List<String> listaAlimentos = new ArrayList<>();
+
+
+    Map<String, Object> MapaAlimentos = new HashMap<>();
     final double[] energia = {0.0};
     final double[] proteina = {0.0};
     final double[] carbohidratos = {0.0};
@@ -226,7 +228,6 @@ public class AgregarInfo extends AppCompatActivity {
                         agregarButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                listaAlimentos.add(nombre);
 
                                 String pesoText = peso.getText().toString().trim();
                                 String autoCompleteText = autoCompleteTextView.getText().toString().trim();
@@ -247,6 +248,8 @@ public class AgregarInfo extends AppCompatActivity {
                                 double lipidosValue = Double.parseDouble(Vlipidos) * pesoValue;
                                 double gsatValue = Double.parseDouble(Vgsat) * pesoValue;
                                 double sodioValue = Double.parseDouble(Vsodio) * pesoValue;
+
+                                MapaAlimentos.put(nombre, infoAlimenticiaIndividual(energiaValue,proteinaValue,carbohidratosValue,colesterolValue,lipidosValue,gsatValue,sodioValue));
 
                                 // Sumar los valores convertidos a las variables
                                 energia[0] += energiaValue;
@@ -269,7 +272,7 @@ public class AgregarInfo extends AppCompatActivity {
                         desayunoButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno",listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno",MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                             }
@@ -278,7 +281,7 @@ public class AgregarInfo extends AppCompatActivity {
                         almuerzoButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo",listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo",MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                                 }
@@ -287,7 +290,7 @@ public class AgregarInfo extends AppCompatActivity {
                         cenaButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", listaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                 Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
                                 volverAInformacionGeneral(Correo);
                                 }
@@ -302,7 +305,7 @@ public class AgregarInfo extends AppCompatActivity {
         }.execute();
     }
 
-    private void cargarDatosFirebaseI(String fecha, String correo, String comida,List<String> alimentos, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
+    private void cargarDatosFirebaseI(String fecha, String correo, String comida ,Map<String, Object> alimentos, double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol) {
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference mRootReference = database.getReference();
@@ -332,7 +335,7 @@ public class AgregarInfo extends AppCompatActivity {
 
 
 
-    private Object infoAlimenticia(List<String> alimentos,double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
+    private Object infoAlimenticia(Map<String, Object> alimentos,double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
         Map<String, Object> fechas = new HashMap<>();
         fechas.put("Alimentos", alimentos);
         fechas.put("Proteina", proteina);
@@ -353,5 +356,17 @@ public class AgregarInfo extends AppCompatActivity {
         finish();
     }
 
+
+    private Object infoAlimenticiaIndividual(double proteina, double energia, double carbohidratos, double lipidos, double sales, double gsat, double colesterol){
+        Map<String, Object> fechas = new HashMap<>();
+        fechas.put("Proteina", proteina);
+        fechas.put("Energia", energia);
+        fechas.put("Carbohidratos", carbohidratos);
+        fechas.put("Lipidos", lipidos);
+        fechas.put("Sodio", sales);
+        fechas.put("Gsat", gsat);
+        fechas.put("Colesterol", colesterol);
+        return fechas;
+    }
 
 }

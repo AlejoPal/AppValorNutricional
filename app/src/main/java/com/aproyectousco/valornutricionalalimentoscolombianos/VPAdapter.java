@@ -6,75 +6,50 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
-    ArrayList<ViewPagerItem> viewPagerItemArrayList;
+    ArrayList<ViewPagerItem> viewPagerItemsList;
 
-    public VPAdapter(ArrayList<ViewPagerItem> viewPagerItemArrayList) {
-        this.viewPagerItemArrayList = viewPagerItemArrayList;
+    public VPAdapter(ArrayList<ViewPagerItem> viewPagerItemsList) {
+        this.viewPagerItemsList = viewPagerItemsList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.viewpager_item,parent,false);
-
+                .inflate(R.layout.viewpager_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ViewPagerItem viewPagerItem = viewPagerItemsList.get(position);
+        List<TablaItem> tablaItems = viewPagerItem.getTablaItems();
 
-        ViewPagerItem viewPagerItem = viewPagerItemArrayList.get(position);
-
-        holder.txtiempo.setText(viewPagerItem.comidas);
-        holder.txCarbohidratos.setText(viewPagerItem.carbohidratos);
-        holder.txColesterol.setText(viewPagerItem.colesterol);
-        holder.txEnergia.setText(viewPagerItem.energia);
-        holder.txSaturadas.setText(viewPagerItem.gsat);
-        holder.txLipidos.setText(viewPagerItem.lipidos);
-        holder.txProteinas.setText(viewPagerItem.proteinas);
-        holder.txSodio.setText(viewPagerItem.sodio);
-
-        if (!viewPagerItem.alimentos.isEmpty()) {
-            StringBuilder alimentosText = new StringBuilder();
-            for (String alimento : viewPagerItem.alimentos) {
-                alimentosText.append(alimento).append("\n");
-            }
-            holder.txtalimentos.setVisibility(View.VISIBLE); // Mostrar el TextView
-            holder.txtalimentos.setText(alimentosText.toString());
-        } else {
-            holder.txtalimentos.setVisibility(View.GONE); // Ocultar el TextView
-        }
-
-
+        TablaAdapter tablaAdapter = new TablaAdapter(tablaItems);
+        holder.recyclerView.setAdapter(tablaAdapter);
+        holder.txtAlimento.setText(viewPagerItem.getAlimento());
     }
 
     @Override
     public int getItemCount() {
-        return viewPagerItemArrayList.size();
+        return viewPagerItemsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView txtalimentos, txtiempo, txCarbohidratos, txColesterol, txEnergia, txSaturadas, txLipidos, txProteinas, txSodio;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView txtAlimento;
+        RecyclerView recyclerView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtalimentos = itemView.findViewById(R.id.txtAlimentos);
-            txtiempo = itemView.findViewById(R.id.tiempo);
-            txCarbohidratos = itemView.findViewById(R.id.txtcarbohidratos);
-            txColesterol = itemView.findViewById(R.id.txtcolesterol);
-            txEnergia = itemView.findViewById(R.id.txtenergia);
-            txSaturadas = itemView.findViewById(R.id.txtgsaturadas);
-            txLipidos = itemView.findViewById(R.id.txtlipidos);
-            txProteinas = itemView.findViewById(R.id.txtproteinas);
-            txSodio = itemView.findViewById(R.id.txtsodio);
-
+            txtAlimento = itemView.findViewById(R.id.tiempo); // Actualiza el ID para el nombre del alimento
+            recyclerView = itemView.findViewById(R.id.recyclerView); // Asegúrate de que esto coincida con el ID en viewpager_item.xml
+            recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
         }
     }
-
 }
