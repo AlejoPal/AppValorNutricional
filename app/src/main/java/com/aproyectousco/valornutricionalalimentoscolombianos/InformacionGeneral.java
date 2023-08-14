@@ -201,7 +201,18 @@ public class InformacionGeneral extends AppCompatActivity {
                         Double lipidos = comidaSnapshot.child("Lipidos").getValue(Double.class);
                         Double proteinas = comidaSnapshot.child("Proteina").getValue(Double.class);
                         Double sodio = comidaSnapshot.child("Sodio").getValue(Double.class);
-                        TablaItem tablaItemR = new TablaItem("Resumen", String.valueOf(carbohidratos), String.valueOf(colesterol), String.valueOf(energia), String.valueOf(gsat), String.valueOf(lipidos), String.valueOf(proteinas), String.valueOf(sodio));
+
+                        // Formatea los valores con un máximo de dos decimales
+                        String carbohidratosFormatted = String.format("%.2f", carbohidratos);
+                        String colesterolFormatted = String.format("%.2f", colesterol);
+                        String energiaFormatted = String.format("%.2f", energia);
+                        String gsatFormatted = String.format("%.2f", gsat);
+                        String lipidosFormatted = String.format("%.2f", lipidos);
+                        String proteinasFormatted = String.format("%.2f", proteinas);
+                        String sodioFormatted = String.format("%.2f", sodio);
+
+                        // Crea un nuevo objeto TablaItem usando los valores formateados
+                        TablaItem tablaItemR = new TablaItem("Resumen", carbohidratosFormatted, colesterolFormatted, energiaFormatted, gsatFormatted, lipidosFormatted, proteinasFormatted, sodioFormatted);
                         alimentosList.add(tablaItemR);
 
 
@@ -216,7 +227,18 @@ public class InformacionGeneral extends AppCompatActivity {
                             Double lipidosA = alimentoSnapshot.child("Lipidos").getValue(Double.class);
                             Double proteinasA = alimentoSnapshot.child("Proteina").getValue(Double.class);
                             Double sodioA = alimentoSnapshot.child("Sodio").getValue(Double.class);
-                            TablaItem tablaItem = new TablaItem(alimento, String.valueOf(carbohidratosA), String.valueOf(colesterolA), String.valueOf(energiaA), String.valueOf(gsatA), String.valueOf(lipidosA), String.valueOf(proteinasA), String.valueOf(sodioA));
+
+                            // Formatea los valores con un máximo de dos decimales
+                            String carbohidratosFormatted1 = String.format("%.2f", carbohidratosA);
+                            String colesterolFormatted1 = String.format("%.2f", colesterolA);
+                            String energiaFormatted1 = String.format("%.2f", energiaA);
+                            String gsatFormatted1 = String.format("%.2f", gsatA);
+                            String lipidosFormatted1 = String.format("%.2f", lipidosA);
+                            String proteinasFormatted1 = String.format("%.2f", proteinasA);
+                            String sodioFormatted1 = String.format("%.2f", sodioA);
+
+                            // Crea un objeto TablaItem con los valores formateados
+                            TablaItem tablaItem = new TablaItem(alimento, carbohidratosFormatted1, colesterolFormatted1, energiaFormatted1, gsatFormatted1, lipidosFormatted1, proteinasFormatted1, sodioFormatted1);
                             alimentosList.add(tablaItem);
                         }
 

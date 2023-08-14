@@ -14,6 +14,17 @@ public class Alimento {
         return nombre;
     }
 
+    public Alimento(String nombre, String energia, String proteina, String carbohidratos, String colesterol, String lipidos, String gsat, String sodio) {
+        this.nombre = nombre;
+        this.energia = energia;
+        this.proteina = proteina;
+        this.carbohidratos = carbohidratos;
+        this.colesterol = colesterol;
+        this.lipidos = lipidos;
+        this.gsat = gsat;
+        this.sodio = sodio;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

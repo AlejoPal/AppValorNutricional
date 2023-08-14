@@ -151,16 +151,7 @@ public class AgregarInfo extends AppCompatActivity {
                         Log.d("CLASE", "Sodio: " + sodio);
 
                         // Crear una instancia de Alimento y asignar los valores
-                        Alimento alimento = new Alimento();
-                        alimento.setNombre(nombre);
-                        alimento.setEnergia(energia);
-                        alimento.setProteina(proteina);
-                        alimento.setCarbohidratos(carbohidratos);
-                        alimento.setColesterol(colesterol);
-                        alimento.setLipidos(lipidos);
-                        alimento.setGsat(gsat);
-                        alimento.setSodio(sodio);
-
+                        Alimento alimento = new Alimento(nombre, energia, proteina, carbohidratos, colesterol, lipidos, gsat, sodio);
                         alimentosList.add(alimento);
                     }
 
@@ -179,6 +170,7 @@ public class AgregarInfo extends AppCompatActivity {
                     // Configurar el ArrayAdapter con la lista de valores (nombres de los alimentos)
                     valuesList = new ArrayList<>();
                     for (Alimento alimento : result) {
+                        Log.d("INSERTAR", "Nombre: " + alimento.getNombre());
                         valuesList.add(alimento.getNombre());
                     }
 
@@ -191,117 +183,123 @@ public class AgregarInfo extends AppCompatActivity {
                     // Manejar la selección del AutoCompleteTextView
                     autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                         // Obtener el alimento seleccionado
-                        Alimento alimentoSeleccionado = result.get(position);
+                        String nombreAlimentoSeleccionado = (String) parent.getItemAtPosition(position);
 
-                        // Aquí puedes acceder a los demás atributos del alimento y hacer lo que necesites
-                        String nombre = alimentoSeleccionado.getNombre();
-                        String Venergia = alimentoSeleccionado.getEnergia();
-                        String Vproteina = alimentoSeleccionado.getProteina();
-                        String Vcarbohidratos = alimentoSeleccionado.getCarbohidratos();
-                        String Vcolesterol = alimentoSeleccionado.getColesterol();
-                        String Vlipidos = alimentoSeleccionado.getLipidos();
-                        String Vgsat = alimentoSeleccionado.getGsat();
-                        String Vsodio = alimentoSeleccionado.getSodio();
-
-                        Log.d("INFOALIMENTOS", "Nombre: " + nombre);
-                        Log.d("INFOALIMENTOS", "Energia: " + Venergia);
-                        Log.d("INFOALIMENTOS", "Proteina: " + Vproteina);
-                        Log.d("INFOALIMENTOS", "Carbohidratos: " + Vcarbohidratos);
-                        Log.d("INFOALIMENTOS", "Colesterol: " + Vcolesterol);
-                        Log.d("INFOALIMENTOS", "Lipidos: " + Vlipidos);
-                        Log.d("INFOALIMENTOS", "Gsat: " + Vgsat);
-                        Log.d("INFOALIMENTOS", "Sodio: " + Vsodio);
-
-
-                        // Hacer algo con los datos obtenidos
-                        Log.d("INFOALIMENTOS", "Nombre: " + nombre);
-                        Log.d("INFOALIMENTOS", "Energia: " + energia);
-                        Log.d("INFOALIMENTOS", "Proteina: " + proteina);
-                        Log.d("INFOALIMENTOS", "Carbohidratos: " + carbohidratos);
-                        Log.d("INFOALIMENTOS", "Colesterol: " + colesterol);
-                        Log.d("INFOALIMENTOS", "Lipidos: " + lipidos);
-                        Log.d("INFOALIMENTOS", "Gsat: " + gsat);
-                        Log.d("INFOALIMENTOS", "Sodio: " + sodio);
-                        // Conseguir fecha y correo
-                        Date date = new Date();
-                        SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
-                        String fechaHoy= fechaC.format(date);
-
-                        //Se recupera el correo de inicio de sesion o de registrar
-                        Intent intent = getIntent();
-                        String Correo = intent.getStringExtra("Correo");
-
-
-                        agregarButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                String pesoText = peso.getText().toString().trim();
-                                String autoCompleteText = autoCompleteTextView.getText().toString().trim();
-
-                                // Verificar que ambos campos tengan valores
-                                if (pesoText.isEmpty() || autoCompleteText.isEmpty()) {
-                                    Toast.makeText(AgregarInfo.this, "Por favor ingresa el peso y selecciona un alimento", Toast.LENGTH_SHORT).show();
-                                    return; // Salir del método si no se cumplen los requisitos
-                                }
-
-                                double pesoValue = Double.parseDouble(peso.getText().toString())/100;
-
-                                // Convertir los valores de tipo String a double
-                                double energiaValue = Double.parseDouble(Venergia) * pesoValue;
-                                double proteinaValue = Double.parseDouble(Vproteina) * pesoValue;
-                                double carbohidratosValue = Double.parseDouble(Vcarbohidratos) * pesoValue;
-                                double colesterolValue = Double.parseDouble(Vcolesterol) * pesoValue;
-                                double lipidosValue = Double.parseDouble(Vlipidos) * pesoValue;
-                                double gsatValue = Double.parseDouble(Vgsat) * pesoValue;
-                                double sodioValue = Double.parseDouble(Vsodio) * pesoValue;
-
-                                MapaAlimentos.put(nombre, infoAlimenticiaIndividual(energiaValue,proteinaValue,carbohidratosValue,colesterolValue,lipidosValue,gsatValue,sodioValue));
-
-                                // Sumar los valores convertidos a las variables
-                                energia[0] += energiaValue;
-                                proteina[0] += proteinaValue;
-                                carbohidratos[0] += carbohidratosValue;
-                                colesterol[0] += colesterolValue;
-                                lipidos[0] += lipidosValue;
-                                gsat[0] += gsatValue;
-                                sodio[0] += sodioValue;
-
-                                Toast.makeText(AgregarInfo.this, "Informacion Guardada", Toast.LENGTH_SHORT).show();
-                                autoCompleteTextView.setText("");  // Borra el valor ingresado
-                                autoCompleteTextView.setHint("Buscar");  // Restaura el hint
-                                peso.setText("");
-                                peso.setHint("Peso(gr)");
-
+                        // Buscar el elemento correspondiente en la lista result
+                        Alimento alimentoSeleccionado = null;
+                        for (Alimento alimento : result) {
+                            if (alimento.getNombre().equals(nombreAlimentoSeleccionado)) {
+                                alimentoSeleccionado = alimento;
+                                break; // Detener la búsqueda una vez que se encuentra el alimento
                             }
+                        }
+                        if (alimentoSeleccionado != null) {
+                            // Aquí puedes acceder a los demás atributos del alimento y hacer lo que necesites
+                            String nombre = alimentoSeleccionado.getNombre();
+                            String Venergia = alimentoSeleccionado.getEnergia();
+                            String Vproteina = alimentoSeleccionado.getProteina();
+                            String Vcarbohidratos = alimentoSeleccionado.getCarbohidratos();
+                            String Vcolesterol = alimentoSeleccionado.getColesterol();
+                            String Vlipidos = alimentoSeleccionado.getLipidos();
+                            String Vgsat = alimentoSeleccionado.getGsat();
+                            String Vsodio = alimentoSeleccionado.getSodio();
 
-                        });
-                        desayunoButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno",MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
-                                Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral(Correo);
-                            }
-                        });
+                            Log.d("INFOALIMENTOS", "Nombre: " + nombre);
+                            Log.d("INFOALIMENTOS", "Energia: " + Venergia);
+                            Log.d("INFOALIMENTOS", "Proteina: " + Vproteina);
+                            Log.d("INFOALIMENTOS", "Carbohidratos: " + Vcarbohidratos);
+                            Log.d("INFOALIMENTOS", "Colesterol: " + Vcolesterol);
+                            Log.d("INFOALIMENTOS", "Lipidos: " + Vlipidos);
+                            Log.d("INFOALIMENTOS", "Gsat: " + Vgsat);
+                            Log.d("INFOALIMENTOS", "Sodio: " + Vsodio);
 
-                        almuerzoButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo",MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
-                                Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral(Correo);
+
+                            // Hacer algo con los datos obtenidos
+
+                            // Conseguir fecha y correo
+                            Date date = new Date();
+                            SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
+                            String fechaHoy = fechaC.format(date);
+
+                            //Se recupera el correo de inicio de sesion o de registrar
+                            Intent intent = getIntent();
+                            String Correo = intent.getStringExtra("Correo");
+
+
+                            agregarButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    String pesoText = peso.getText().toString().trim();
+                                    String autoCompleteText = autoCompleteTextView.getText().toString().trim();
+
+                                    // Verificar que ambos campos tengan valores
+                                    if (pesoText.isEmpty() || autoCompleteText.isEmpty() || Double.parseDouble(pesoText) <= 0) {
+                                        Toast.makeText(AgregarInfo.this, "Por favor ingresa un peso válido y selecciona un alimento", Toast.LENGTH_SHORT).show();
+                                        return; // Salir del método si no se cumplen los requisitos
+                                    }
+
+
+                                    double pesoValue = Double.parseDouble(peso.getText().toString()) / 100;
+
+                                    // Convertir los valores de tipo String a double
+                                    double energiaValue = Double.parseDouble(Venergia) * pesoValue;
+                                    double proteinaValue = Double.parseDouble(Vproteina) * pesoValue;
+                                    double carbohidratosValue = Double.parseDouble(Vcarbohidratos) * pesoValue;
+                                    double colesterolValue = Double.parseDouble(Vcolesterol) * pesoValue;
+                                    double lipidosValue = Double.parseDouble(Vlipidos) * pesoValue;
+                                    double gsatValue = Double.parseDouble(Vgsat) * pesoValue;
+                                    double sodioValue = Double.parseDouble(Vsodio) * pesoValue;
+
+                                    MapaAlimentos.put(nombre, infoAlimenticiaIndividual(proteinaValue, energiaValue, carbohidratosValue, lipidosValue, sodioValue, gsatValue, colesterolValue));
+
+                                    // Sumar los valores convertidos a las variables
+                                    energia[0] += energiaValue;
+                                    proteina[0] += proteinaValue;
+                                    carbohidratos[0] += carbohidratosValue;
+                                    colesterol[0] += colesterolValue;
+                                    lipidos[0] += lipidosValue;
+                                    gsat[0] += gsatValue;
+                                    sodio[0] += sodioValue;
+
+
+                                    Toast.makeText(AgregarInfo.this, "Informacion Guardada", Toast.LENGTH_SHORT).show();
+                                    autoCompleteTextView.setText("");  // Borra el valor ingresado
+                                    autoCompleteTextView.setHint("Buscar");  // Restaura el hint
+                                    peso.setText("");
+                                    peso.setHint("Peso(gr)");
+
                                 }
-                        });
 
-                        cenaButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                cargarDatosFirebaseI(fechaHoy, Correo, "Cena", MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
-                                Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
-                                volverAInformacionGeneral(Correo);
+                            });
+                            desayunoButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cargarDatosFirebaseI(fechaHoy, Correo, "Desayuno", MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                    Toast.makeText(AgregarInfo.this, "Desayuno agregado", Toast.LENGTH_SHORT).show();
+                                    volverAInformacionGeneral(Correo);
                                 }
-                        });
+                            });
+
+                            almuerzoButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cargarDatosFirebaseI(fechaHoy, Correo, "Almuerzo", MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                    Toast.makeText(AgregarInfo.this, "Almuerzo agregado", Toast.LENGTH_SHORT).show();
+                                    volverAInformacionGeneral(Correo);
+                                }
+                            });
+
+                            cenaButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cargarDatosFirebaseI(fechaHoy, Correo, "Cena", MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
+                                    Toast.makeText(AgregarInfo.this, "Cena agregada", Toast.LENGTH_SHORT).show();
+                                    volverAInformacionGeneral(Correo);
+                                }
+                            });
+                        }
+
                     });
 
 
