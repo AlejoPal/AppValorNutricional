@@ -15,12 +15,14 @@
     <string name="hintContrasena">Contraseña</string>
     <string name="hintName">Nombre</string>
     <string name="hintBuscar">Buscar</string>
+    <string name="hintPeso">Peso(gr)</string>
 
     <string name="txtbien">Bienvenido, </string>
     <string name="txtRegistrar">Registrar</string>
     <string name="txtInicarSesion">Iniciar Sesion</string>
     <string name="txtAgregarComida">Agregar Comida</string>
     <string name="txtseleccionfecha">Por favor seleccione una fecha </string>
+    <string name="txtAgregar">Añadir</string>
     <string name="txtdesayuno">Desayuno</string>
     <string name="txtAlmuerzo">Almuerzo</string>
     <string name="txtCena">Cena</string>

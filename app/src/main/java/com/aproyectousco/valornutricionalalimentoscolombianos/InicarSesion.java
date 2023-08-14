@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -101,11 +102,16 @@ public class InicarSesion extends AppCompatActivity {
 
                     //Parte dos
                     Toast.makeText(InicarSesion.this, "Login", Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Intent intent =  new Intent(InicarSesion.this, InformacionGeneral.class);
-                    intent.putExtra("Correo", correo.getText().toString().replace(".", ""));
-                    startActivity(intent);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(InicarSesion.this, InformacionGeneral.class);
+                            intent.putExtra("Correo", correo.getText().toString().replace(".", ""));
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 200);
 
                 }else {
 
@@ -126,6 +132,7 @@ public class InicarSesion extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.exists()) {
                         // La fecha no existe, se crea un nuevo nodo con los datos
+
                         Map<String, Object> diario = new HashMap<>();
                         diario.put("Desayuno", infoAlimenticia(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
                         diario.put("Almuerzo", infoAlimenticia(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));

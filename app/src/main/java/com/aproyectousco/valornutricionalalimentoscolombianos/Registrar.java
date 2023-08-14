@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -104,12 +105,21 @@ public class Registrar extends AppCompatActivity {
                         cargarDatosFirebase(nombreText, sfecha, correoText.replace(".", ""));
 
                         // Ir a InformacionGeneral cuando inicie sesión
+
+
+
                         Toast.makeText(Registrar.this, "Inicio de sesión", Toast.LENGTH_SHORT).show();
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = new Intent(Registrar.this, InformacionGeneral.class);
-                        intent.putExtra("Correo", correoText.replace(".", ""));
-                        startActivity(intent);
-                        finish();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent intent = new Intent(Registrar.this, InformacionGeneral.class);
+                                intent.putExtra("Correo", correoText.replace(".", ""));
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 200);
+
                     } else {
                         Toast.makeText(Registrar.this, "Error en la autenticación", Toast.LENGTH_SHORT).show();
                     }
