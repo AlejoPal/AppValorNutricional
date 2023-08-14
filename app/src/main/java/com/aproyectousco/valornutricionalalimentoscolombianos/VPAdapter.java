@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -50,6 +51,12 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
             txtAlimento = itemView.findViewById(R.id.tiempo); // Actualiza el ID para el nombre del alimento
             recyclerView = itemView.findViewById(R.id.recyclerView); // Asegúrate de que esto coincida con el ID en viewpager_item.xml
             recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+            // Verifica si ya se ha agregado el decorador, para evitar duplicados
+            if (recyclerView.getItemDecorationCount() == 0) {
+                // Agrega el espacio decorativo entre los elementos del RecyclerView
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+            }
         }
     }
 }

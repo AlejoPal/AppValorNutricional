@@ -201,6 +201,9 @@ public class InformacionGeneral extends AppCompatActivity {
                         Double lipidos = comidaSnapshot.child("Lipidos").getValue(Double.class);
                         Double proteinas = comidaSnapshot.child("Proteina").getValue(Double.class);
                         Double sodio = comidaSnapshot.child("Sodio").getValue(Double.class);
+                        TablaItem tablaItemR = new TablaItem("Resumen", String.valueOf(carbohidratos), String.valueOf(colesterol), String.valueOf(energia), String.valueOf(gsat), String.valueOf(lipidos), String.valueOf(proteinas), String.valueOf(sodio));
+                        alimentosList.add(tablaItemR);
+
 
                         // Recorrer los alimentos de esta comida y agregarlos a la lista correspondiente
                         DataSnapshot alimentosSnapshot = comidaSnapshot.child("Alimentos");
