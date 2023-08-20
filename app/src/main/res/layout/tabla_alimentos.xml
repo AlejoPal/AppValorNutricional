@@ -11,15 +11,33 @@
         android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/txtAlimentos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/sansationbold"
-            android:textColor="@color/colornombreapp"
-            android:textAlignment="center"
-            android:textSize="24sp" />
+            android:gravity="center|center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtAlimentos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/sansationbold"
+                android:textAlignment="center"
+                android:textColor="@color/colornombreapp"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/btnEliminar"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:src="@drawable/ic_delete" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
