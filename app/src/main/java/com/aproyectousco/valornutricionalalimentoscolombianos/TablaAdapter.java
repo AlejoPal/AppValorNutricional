@@ -3,6 +3,7 @@ package com.aproyectousco.valornutricionalalimentoscolombianos;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +37,20 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
         holder.txtlipidos.setText(item.getLipidos());
         holder.txtproteinas.setText(item.getProteinas());
         holder.txtsodio.setText(item.getSodio());
+
+        // Agregar el OnClickListener al botón de eliminación
+        holder.btnImagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Eliminar el elemento de la lista y notificar cambios
+                tablaItemList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, tablaItemList.size());
+
+                // Aquí debes implementar la lógica para eliminar el elemento de la base de datos (Firebase)
+                // Puedes usar mRootReference.child("Usuario").child(correo).child(fechaSeleccionada).child(comida).removeValue();
+            }
+        });
     }
 
     @Override
@@ -45,9 +60,11 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
 
     static class TablaViewHolder extends RecyclerView.ViewHolder {
         TextView txtAlimentos, txtcarbohidratos, txtcolesterol, txtenergia, txtgsaturadas, txtlipidos, txtproteinas, txtsodio;
+        ImageView btnImagen;
 
         public TablaViewHolder(@NonNull View itemView) {
             super(itemView);
+            btnImagen = itemView.findViewById(R.id.btnEliminar);
             txtAlimentos = itemView.findViewById(R.id.txtAlimentos);
             txtcarbohidratos = itemView.findViewById(R.id.txtcarbohidratos);
             txtcolesterol = itemView.findViewById(R.id.txtcolesterol);

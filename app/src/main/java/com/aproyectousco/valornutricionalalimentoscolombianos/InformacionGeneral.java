@@ -41,6 +41,7 @@ public class InformacionGeneral extends AppCompatActivity {
     String correo, fechahoy;
     DatabaseReference mRootReference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

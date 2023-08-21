@@ -1,5 +1,7 @@
 package com.aproyectousco.valornutricionalalimentoscolombianos;
 
+import android.view.View;
+
 public class TablaItem {
 
     String comidas, carbohidratos, colesterol, energia, gsat, lipidos, proteinas, sodio;
