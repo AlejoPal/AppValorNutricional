@@ -5,9 +5,13 @@ import android.view.View;
 public class TablaItem {
 
     String comidas, carbohidratos, colesterol, energia, gsat, lipidos, proteinas, sodio;
+    String fecha, correo, tiempo;
 
-    public TablaItem(String comidas, String carbohidratos, String colesterol, String energia, String gsat, String lipidos, String proteinas, String sodio) {
+    public TablaItem(String fecha, String correo, String tiempo, String comidas, String carbohidratos, String colesterol, String energia, String gsat, String lipidos, String proteinas, String sodio) {
 
+        this.fecha = fecha;
+        this.correo = correo;
+        this.tiempo = tiempo;
         this.comidas = comidas;
         this.carbohidratos = carbohidratos;
         this.colesterol = colesterol;
@@ -16,6 +20,30 @@ public class TablaItem {
         this.lipidos = lipidos;
         this.proteinas = proteinas;
         this.sodio = sodio;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
     }
 
     public String getComidas() {

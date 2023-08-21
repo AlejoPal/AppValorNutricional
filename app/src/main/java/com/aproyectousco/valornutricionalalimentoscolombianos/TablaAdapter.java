@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHolder> {
@@ -47,8 +51,12 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, tablaItemList.size());
 
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference mRootReference = database.getReference();
+
                 // Aquí debes implementar la lógica para eliminar el elemento de la base de datos (Firebase)
-                // Puedes usar mRootReference.child("Usuario").child(correo).child(fechaSeleccionada).child(comida).removeValue();
+                DatabaseReference databaseRef = mRootReference.child("Usuario").child(item.getCorreo()).child(item.getFecha()).child(item.getTiempo()).child("Alimentos").child(item.getComidas());
+                databaseRef.removeValue();
             }
         });
     }
