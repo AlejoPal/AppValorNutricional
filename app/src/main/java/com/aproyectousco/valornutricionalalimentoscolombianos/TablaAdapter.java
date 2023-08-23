@@ -100,6 +100,12 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
                                 .child("Alimentos");
 
 
+                        tablaItemList.remove(currentPosition);
+                        notifyItemRemoved(currentPosition);
+                        // Aquí debes implementar la lógica para eliminar el elemento de la base de datos (Firebase)
+                        DatabaseReference databaseRef = mRootReference.child("Usuario").child(item.getCorreo()).child(item.getFecha()).child(item.getTiempo()).child("Alimentos").child(item.getComidas());
+                        databaseRef.removeValue();
+
                         // Agrega un listener para obtener los valores de cada alimento y sumarlos
                         alimentosRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -139,6 +145,21 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
                                 resumenRef.child("Lipidos").setValue(totalLipidos[0]);
                                 resumenRef.child("Proteina").setValue(totalProteinas[0]);
                                 resumenRef.child("Sodio").setValue(totalSodio[0]);
+
+                                // Actualizar los valores mostrados en el primer elemento del RecyclerView
+                                TablaItem firstItem = tablaItemList.get(0);
+                                firstItem.setCarbohidratos(String.format("%.2f", totalCarbohidratos[0]));
+                                firstItem.setColesterol(String.format("%.2f", totalColesterol[0]));
+                                firstItem.setEnergia(String.format("%.2f", totalEnergia[0]));
+                                firstItem.setGsat(String.format("%.2f", totalGsat[0]));
+                                firstItem.setLipidos(String.format("%.2f", totalLipidos[0]));
+                                firstItem.setProteinas(String.format("%.2f", totalProteinas[0]));
+                                firstItem.setSodio(String.format("%.2f", totalSodio[0]));
+
+                                // Notificar que el primer elemento ha cambiado para que se actualice en el RecyclerView
+                                notifyItemChanged(0);
+
+
                             }
 
                             @Override
@@ -147,11 +168,7 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
                             }
                         });
 
-                        tablaItemList.remove(currentPosition);
-                        notifyItemRemoved(currentPosition);
-                        // Aquí debes implementar la lógica para eliminar el elemento de la base de datos (Firebase)
-                        DatabaseReference databaseRef = mRootReference.child("Usuario").child(item.getCorreo()).child(item.getFecha()).child(item.getTiempo()).child("Alimentos").child(item.getComidas());
-                        databaseRef.removeValue();
+
                     }
 
                 }
