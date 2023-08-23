@@ -48,6 +48,13 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
         holder.txtproteinas.setText(item.getProteinas());
         holder.txtsodio.setText(item.getSodio());
 
+
+        if (position == 0) {
+            holder.btnImagen.setVisibility(View.GONE); // Ocultar el botón para el primer elemento
+        } else {
+            holder.btnImagen.setVisibility(View.VISIBLE); // Mostrar el botón para los otros elementos
+        }
+
         // Agregar el OnClickListener al botón de eliminación
 
         holder.btnImagen.setOnClickListener(new View.OnClickListener() {
