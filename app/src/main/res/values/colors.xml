@@ -13,5 +13,7 @@
     <color name="colornombreapp">#14AB23</color>
     <color name="colorHintOscuro">#40000000</color>
     <color name="colortextos">#CD000000</color>
+    <color name="colorPeligro">#FD1100</color>
+    <color name="colorEstable">#14FF23</color>
 
 </resources>

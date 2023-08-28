@@ -41,6 +41,7 @@ public class InformacionGeneral extends AppCompatActivity {
     String correo, fechahoy;
     DatabaseReference mRootReference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,7 +213,7 @@ public class InformacionGeneral extends AppCompatActivity {
                         String sodioFormatted = String.format("%.2f", sodio);
 
                         // Crea un nuevo objeto TablaItem usando los valores formateados
-                        TablaItem tablaItemR = new TablaItem("Resumen", carbohidratosFormatted, colesterolFormatted, energiaFormatted, gsatFormatted, lipidosFormatted, proteinasFormatted, sodioFormatted);
+                        TablaItem tablaItemR = new TablaItem(fechaSeleccionada,correo,"Resumen", "Resumen", carbohidratosFormatted, colesterolFormatted, energiaFormatted, gsatFormatted, lipidosFormatted, proteinasFormatted, sodioFormatted);
                         alimentosList.add(tablaItemR);
 
 
@@ -238,7 +239,7 @@ public class InformacionGeneral extends AppCompatActivity {
                             String sodioFormatted1 = String.format("%.2f", sodioA);
 
                             // Crea un objeto TablaItem con los valores formateados
-                            TablaItem tablaItem = new TablaItem(alimento, carbohidratosFormatted1, colesterolFormatted1, energiaFormatted1, gsatFormatted1, lipidosFormatted1, proteinasFormatted1, sodioFormatted1);
+                            TablaItem tablaItem = new TablaItem(fechaSeleccionada,correo,comida,alimento, carbohidratosFormatted1, colesterolFormatted1, energiaFormatted1, gsatFormatted1, lipidosFormatted1, proteinasFormatted1, sodioFormatted1);
                             alimentosList.add(tablaItem);
                         }
 

@@ -27,12 +27,12 @@
     <string name="txtAlmuerzo">Almuerzo</string>
     <string name="txtCena">Cena</string>
 
-    <string name="VCarbohidratos">Carbohidratos</string>
-    <string name="VColesterol">Colesterol</string>
+    <string name="VCarbohidratos">Carbohidratos(g)</string>
+    <string name="VColesterol">Colesterol(g)</string>
     <string name="VEnergia">Energia(Kcal)</string>
-    <string name="VLipidos">Lipidos</string>
-    <string name="VGsaturadas">Grasas saturadas</string>
-    <string name="VSodio">Sodio</string>
-    <string name="VProteina">Proteina</string>
+    <string name="VLipidos">Lipidos(g)</string>
+    <string name="VGsaturadas">Grasas saturadas(g)</string>
+    <string name="VSodio">Sodio(mg)</string>
+    <string name="VProteina">Proteina(g)</string>
 
 </resources>
