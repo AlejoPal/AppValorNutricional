@@ -55,6 +55,25 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             holder.btnImagen.setVisibility(View.VISIBLE); // Mostrar el botón para los otros elementos
         }
 
+        if (position == 0) {
+            double carbohidratosValue = Double.parseDouble(item.getCarbohidratos());
+            double colesterolValue = Double.parseDouble(item.getColesterol());
+            double energiaValue = Double.parseDouble(item.getEnergia());
+            double gsatValue = Double.parseDouble(item.getGsat());
+            double lipidosValue = Double.parseDouble(item.getLipidos());
+            double proteinasValue = Double.parseDouble(item.getProteinas());
+            double sodioValue = Double.parseDouble(item.getSodio());
+
+            changeTextColorBasedOnValue(holder.txtcarbohidratos, carbohidratosValue);
+            changeTextColorBasedOnValue(holder.txtcolesterol, colesterolValue);
+            changeTextColorBasedOnValue(holder.txtenergia, energiaValue);
+            changeTextColorBasedOnValue(holder.txtgsaturadas, gsatValue);
+            changeTextColorBasedOnValue(holder.txtlipidos, lipidosValue);
+            changeTextColorBasedOnValue(holder.txtproteinas, proteinasValue);
+            changeTextColorBasedOnValue(holder.txtsodio, sodioValue);
+        }
+
+
         // Agregar el OnClickListener al botón de eliminación
 
         holder.btnImagen.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +203,7 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
 
     }
 
+
     @Override
     public int getItemCount() {
         return tablaItemList.size();
@@ -204,6 +224,14 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             txtlipidos = itemView.findViewById(R.id.txtlipidos);
             txtproteinas = itemView.findViewById(R.id.txtproteinas);
             txtsodio = itemView.findViewById(R.id.txtsodio);
+        }
+    }
+
+    private void changeTextColorBasedOnValue(TextView textView, double value) {
+        if (value > 200) {
+            textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro)); // Cambia el color a uno definido en colors.xml
+        } else if (value > 0 && value < 200) {
+            textView.setTextColor(textView.getContext().getColor(R.color.colorEstable)); // Cambia el color a otro definido en colors.xml
         }
     }
 }
