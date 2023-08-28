@@ -7,6 +7,11 @@ public class ViewPagerItem {
     List<TablaItem> tablaItems;
     String Alimento;
 
+    public ViewPagerItem(List<TablaItem> tablaItems, String Alimento) {
+        this.tablaItems = tablaItems;
+        this.Alimento = Alimento;
+
+    }
     public void setTablaItems(List<TablaItem> tablaItems) {
         this.tablaItems = tablaItems;
     }
@@ -19,11 +24,7 @@ public class ViewPagerItem {
         Alimento = alimento;
     }
 
-    public ViewPagerItem(List<TablaItem> tablaItems, String Alimento) {
-        this.tablaItems = tablaItems;
-        this.Alimento = Alimento;
 
-    }
 
     public List<TablaItem> getTablaItems() {
         return tablaItems;

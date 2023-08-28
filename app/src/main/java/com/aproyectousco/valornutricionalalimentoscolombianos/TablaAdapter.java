@@ -20,10 +20,13 @@ import java.util.List;
 public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHolder> {
 
     private List<TablaItem> tablaItemList;
+    private String alimento; // Nuevo campo para almacenar el nombre del alimento
 
-    public TablaAdapter(List<TablaItem> tablaItemList) {
+    public TablaAdapter(List<TablaItem> tablaItemList, String alimento) {
         this.tablaItemList = tablaItemList;
+        this.alimento = alimento; // Guarda el nombre del alimento
     }
+
 
     @NonNull
     @Override
@@ -64,13 +67,13 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             double proteinasValue = Double.parseDouble(item.getProteinas());
             double sodioValue = Double.parseDouble(item.getSodio());
 
-            changeTextColorBasedOnValue(holder.txtcarbohidratos, carbohidratosValue);
-            changeTextColorBasedOnValue(holder.txtcolesterol, colesterolValue);
-            changeTextColorBasedOnValue(holder.txtenergia, energiaValue);
-            changeTextColorBasedOnValue(holder.txtgsaturadas, gsatValue);
-            changeTextColorBasedOnValue(holder.txtlipidos, lipidosValue);
-            changeTextColorBasedOnValue(holder.txtproteinas, proteinasValue);
-            changeTextColorBasedOnValue(holder.txtsodio, sodioValue);
+            changeTextColorBasedOnValueCarbohidratos(holder.txtcarbohidratos, carbohidratosValue);
+            changeTextColorBasedOnValueColesterol(holder.txtcolesterol, colesterolValue);
+            changeTextColorBasedOnValueEnergia(holder.txtenergia, energiaValue);
+            changeTextColorBasedOnValueSaturadas(holder.txtgsaturadas, gsatValue);
+            changeTextColorBasedOnValueLipidos(holder.txtlipidos, lipidosValue);
+            changeTextColorBasedOnValueProteinas(holder.txtproteinas, proteinasValue);
+            changeTextColorBasedOnValueSodio(holder.txtsodio, sodioValue);
         }
 
 
@@ -228,10 +231,24 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
     }
 
     private void changeTextColorBasedOnValue(TextView textView, double value) {
-        if (value > 200) {
-            textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro)); // Cambia el color a uno definido en colors.xml
-        } else if (value > 0 && value < 200) {
-            textView.setTextColor(textView.getContext().getColor(R.color.colorEstable)); // Cambia el color a otro definido en colors.xml
+        if (alimento.equals("Desayuno")) { // Compara con el nombre del alimento
+            if (value > 300) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
+            } else if (value > 0 && value < 300) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
+            }
+        } else if (alimento.equals("Almuerzo")) {
+            if (value > 400) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
+            } else if (value > 0 && value < 400) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
+            }
+        }else if (alimento.equals("Cena")) {
+            if (value > 500) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
+            } else if (value > 0 && value < 500) {
+                textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
+            }
         }
     }
 }
