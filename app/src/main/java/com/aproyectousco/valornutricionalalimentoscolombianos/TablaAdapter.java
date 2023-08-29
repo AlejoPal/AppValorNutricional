@@ -67,13 +67,13 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             double proteinasValue = Double.parseDouble(item.getProteinas());
             double sodioValue = Double.parseDouble(item.getSodio());
 
-            changeTextColorBasedOnValue(holder.txtcarbohidratos, carbohidratosValue);
-            changeTextColorBasedOnValue(holder.txtcolesterol, colesterolValue);
-            changeTextColorBasedOnValue(holder.txtenergia, energiaValue);
-            changeTextColorBasedOnValue(holder.txtgsaturadas, gsatValue);
-            changeTextColorBasedOnValue(holder.txtlipidos, lipidosValue);
-            changeTextColorBasedOnValue(holder.txtproteinas, proteinasValue);
-            changeTextColorBasedOnValue(holder.txtsodio, sodioValue);
+            changeTextColorBasedOnValue(holder.txtcarbohidratos, carbohidratosValue, 45, 60,60, 80, 35, 45);
+            changeTextColorBasedOnValue(holder.txtcolesterol, colesterolValue,0,100,0,100,0,100);
+            changeTextColorBasedOnValue(holder.txtenergia, energiaValue,350,400,550,600,400,450);
+            changeTextColorBasedOnValue(holder.txtgsaturadas, gsatValue,13,18,18,24,13,18);
+            changeTextColorBasedOnValue(holder.txtlipidos, lipidosValue,13,18,18,24,13,18);
+            changeTextColorBasedOnValue(holder.txtproteinas, proteinasValue,15,20,20,30,12,25);
+            changeTextColorBasedOnValue(holder.txtsodio, sodioValue,300,400,400,600,300,500);
         }
 
 
@@ -230,23 +230,23 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
         }
     }
 
-    private void changeTextColorBasedOnValue(TextView textView, double value) {
-        if (alimento.equals("Desayuno")) { // Compara con el nombre del alimento
-            if (value > 300) {
+    private void changeTextColorBasedOnValue(TextView textView, double value, double limID, double limSD, double limIA, double limSA, double limIC, double limSC) {
+        if (alimento.equals("Desayuno")) {
+            if ((value > limSD || value < limID) && value != 0) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
-            } else if (value > 0 && value < 300) {
+            } else if (value > limID && value < limSD) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
             }
         } else if (alimento.equals("Almuerzo")) {
-            if (value > 400) {
+            if ((value > limSA || value < limIA) && value != 0) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
-            } else if (value > 0 && value < 400) {
+            } else if (value > limIA && value < limSA) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
             }
         }else if (alimento.equals("Cena")) {
-            if (value > 500) {
+            if ((value > limSC || value < limIC) && value != 0) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorPeligro));
-            } else if (value > 0 && value < 500) {
+            } else if (value > limIC && value < limSC) {
                 textView.setTextColor(textView.getContext().getColor(R.color.colorEstable));
             }
         }

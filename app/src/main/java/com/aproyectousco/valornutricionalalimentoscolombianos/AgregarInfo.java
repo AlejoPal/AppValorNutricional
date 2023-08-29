@@ -61,7 +61,7 @@ public class AgregarInfo extends AppCompatActivity {
         intent.putExtra("Correo", correo);
         intent.putExtra("Alimento", Alimento);
         startActivity(intent);
-        
+
     }
 
 }
