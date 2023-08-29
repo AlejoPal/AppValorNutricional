@@ -95,7 +95,9 @@ public class InformacionGeneral extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
                 intent.putExtra("Correo", correo);
+
                 startActivityForResult(intent, 1); // Usamos el código de solicitud 1
+
 
             }
         });

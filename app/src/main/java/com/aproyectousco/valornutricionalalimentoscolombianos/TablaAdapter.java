@@ -67,13 +67,13 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             double proteinasValue = Double.parseDouble(item.getProteinas());
             double sodioValue = Double.parseDouble(item.getSodio());
 
-            changeTextColorBasedOnValueCarbohidratos(holder.txtcarbohidratos, carbohidratosValue);
-            changeTextColorBasedOnValueColesterol(holder.txtcolesterol, colesterolValue);
-            changeTextColorBasedOnValueEnergia(holder.txtenergia, energiaValue);
-            changeTextColorBasedOnValueSaturadas(holder.txtgsaturadas, gsatValue);
-            changeTextColorBasedOnValueLipidos(holder.txtlipidos, lipidosValue);
-            changeTextColorBasedOnValueProteinas(holder.txtproteinas, proteinasValue);
-            changeTextColorBasedOnValueSodio(holder.txtsodio, sodioValue);
+            changeTextColorBasedOnValue(holder.txtcarbohidratos, carbohidratosValue);
+            changeTextColorBasedOnValue(holder.txtcolesterol, colesterolValue);
+            changeTextColorBasedOnValue(holder.txtenergia, energiaValue);
+            changeTextColorBasedOnValue(holder.txtgsaturadas, gsatValue);
+            changeTextColorBasedOnValue(holder.txtlipidos, lipidosValue);
+            changeTextColorBasedOnValue(holder.txtproteinas, proteinasValue);
+            changeTextColorBasedOnValue(holder.txtsodio, sodioValue);
         }
 
 
