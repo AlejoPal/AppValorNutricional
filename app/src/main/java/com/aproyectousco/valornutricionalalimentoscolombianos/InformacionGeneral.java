@@ -58,6 +58,13 @@ public class InformacionGeneral extends AppCompatActivity {
 
         viewPagerItemsList = new ArrayList<>(); // Inicializa la lista de ViewPagerItem
 
+        // Cerrar todas las actividades anteriores en la pila, excepto la actividad actual
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
+
+
 
         Toast.makeText(InformacionGeneral.this, "Selecciona la fecha del calendario", Toast.LENGTH_LONG).show();
 
@@ -95,8 +102,9 @@ public class InformacionGeneral extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AgregarInfo.class);
                 intent.putExtra("Correo", correo);
+                startActivity(intent);
+                finish();
 
-                startActivityForResult(intent, 1); // Usamos el código de solicitud 1
 
 
             }

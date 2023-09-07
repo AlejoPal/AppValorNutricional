@@ -22,6 +22,7 @@ public class AgregarInfo extends AppCompatActivity {
         Button desayunoButton = findViewById(R.id.btnAgregarDesayuno);
         Button almuerzoButton = findViewById(R.id.btnAgregarAlmuerzo);
         Button cenaButton = findViewById(R.id.btnAgregarCena);
+        Button historialButton = findViewById(R.id.btnInformacionGeneral);
 
 
 
@@ -48,21 +49,34 @@ public class AgregarInfo extends AppCompatActivity {
             }
         });
 
+        historialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AgregarInfo.this, InformacionGeneral.class);
+                intent.putExtra("Correo", Correo);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
 
 
     }
 
+    @Override
+    public void onBackPressed() {
+        // No hagas nada para anular el comportamiento del botón de retroceso
+    }
 
 
     private void IrAlimentos(String Alimento, String correo) {
 
 
-        Intent intent = new Intent(AgregarInfo.this, AgregarAlimento.class);
-        intent.putExtra("Correo", correo);
-        intent.putExtra("Alimento", Alimento);
-        startActivity(intent);
-        finish();
-
+        Intent intentIrAlimentos = new Intent(AgregarInfo.this, AgregarAlimento.class);
+        intentIrAlimentos.putExtra("Correo", correo);
+        intentIrAlimentos.putExtra("Alimento", Alimento);
+        startActivity(intentIrAlimentos);
     }
 
 }

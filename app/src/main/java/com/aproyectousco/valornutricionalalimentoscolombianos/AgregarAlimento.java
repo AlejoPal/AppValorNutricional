@@ -327,10 +327,12 @@ public class AgregarAlimento extends AppCompatActivity {
     }
 
     private void volverAInformacionGeneral(String Correo) {
-        Intent intent = new Intent(AgregarAlimento.this, InformacionGeneral.class);
-        intent.putExtra("Correo", Correo);
-        setResult(RESULT_OK, intent); // Establecemos el resultado como RESULT_OK
-        finish();
+        Log.d("INFO", "Cambiando a InformacionGeneral");
+        Intent intentVolver = new Intent(AgregarAlimento.this, InformacionGeneral.class);
+        intentVolver.putExtra("Correo", Correo);
+        intentVolver.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentVolver);
+
     }
 
 

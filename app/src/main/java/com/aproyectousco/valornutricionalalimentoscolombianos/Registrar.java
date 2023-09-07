@@ -113,7 +113,7 @@ public class Registrar extends AppCompatActivity {
                             @Override
                             public void run() {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Intent intent = new Intent(Registrar.this, InformacionGeneral.class);
+                                Intent intent = new Intent(Registrar.this, AgregarInfo.class);
                                 intent.putExtra("Correo", correoText.replace(".", ""));
                                 startActivity(intent);
                                 finish();
