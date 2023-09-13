@@ -3,7 +3,6 @@
     <string name="app_nombre">MiNutriCol</string>
 
 
-
     <string name="btn_inicarsesion">Iniciar sesion</string>
     <string name="btn_registrarse">Registrarse</string>
     <string name="btn_agregarComida">Agregar comida</string>
@@ -23,9 +22,11 @@
     <string name="txtAgregarComida">Agregar Comida</string>
     <string name="txtseleccionfecha">Por favor seleccione una fecha </string>
     <string name="txtAgregar">Añadir</string>
+    <string name="txtRegresar">Volver</string>
     <string name="txtdesayuno">Desayuno</string>
     <string name="txtAlmuerzo">Almuerzo</string>
     <string name="txtCena">Cena</string>
+    <string name="txtHistorial">Historial</string>
 
     <string name="VCarbohidratos">Carbohidratos(g)</string>
     <string name="VColesterol">Colesterol(g)</string>

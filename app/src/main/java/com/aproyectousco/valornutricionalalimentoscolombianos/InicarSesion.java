@@ -106,7 +106,7 @@ public class InicarSesion extends AppCompatActivity {
                         @Override
                         public void run() {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(InicarSesion.this, InformacionGeneral.class);
+                            Intent intent = new Intent(InicarSesion.this, AgregarInfo.class);
                             intent.putExtra("Correo", correo.getText().toString().replace(".", ""));
                             startActivity(intent);
                             finish();

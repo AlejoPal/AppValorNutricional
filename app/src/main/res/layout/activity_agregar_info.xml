@@ -7,27 +7,14 @@
     tools:context=".AgregarInfo">
 
 
-    <Space
-        android:id="@+id/space1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnAgregarDesayuno" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/space1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -37,81 +24,40 @@
             android:textColor="@color/colornombreapp"
             android:textSize="40sp" />
 
-        <AutoCompleteTextView
-            android:id="@+id/txtBusqueda"
-            style="@style/AutoCompleteTextViewStyle"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext_bg"
-            android:completionThreshold="1"
-            android:hint="@string/hintBuscar"
-
-            android:textColor="@color/black"
-            android:textColorHint="@color/botones" />
-
-        <EditText
-            android:id="@+id/txtpeso"
-            android:background="@drawable/rounded_edittext_bg"
-            android:layout_marginTop="10dp"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:fontFamily="@font/sansationbold"
-            android:hint="@string/hintPeso"
-            android:textColorHint="@color/botones"
-            android:inputType="number" />
-
         <Button
-            android:id="@+id/btnAgregar"
+            android:id="@+id/btnAgregarDesayuno"
             android:layout_width="330dp"
             android:layout_height="65dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/rounded_button"
-            android:text="@string/txtAgregar"
+            android:text="@string/txtdesayuno"
             android:textColor="#FFFFFF" />
 
+        <Button
+            android:id="@+id/btnAgregarAlmuerzo"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/txtAlmuerzo"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnAgregarCena"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/txtCena"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnInformacionGeneral"
+            android:layout_width="330dp"
+            android:layout_height="65dp"
+            android:layout_marginVertical="40dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/txtHistorial"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnAgregarDesayuno"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
-        android:layout_marginVertical="20dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/rounded_button"
-        android:text="@string/txtdesayuno"
-        app:layout_constraintBottom_toTopOf="@id/btnAgregarAlmuerzo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnAgregarAlmuerzo"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
-        android:layout_marginVertical="20dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/rounded_button"
-        android:text="@string/txtAlmuerzo"
-        app:layout_constraintBottom_toTopOf="@id/btnAgregarCena"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnAgregarCena"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="60dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/rounded_button"
-        android:text="@string/txtCena"
-        app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Space
-        android:id="@+id/space"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

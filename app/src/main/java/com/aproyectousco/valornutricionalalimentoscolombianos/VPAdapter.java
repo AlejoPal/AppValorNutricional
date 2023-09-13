@@ -32,10 +32,13 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
         ViewPagerItem viewPagerItem = viewPagerItemsList.get(position);
         List<TablaItem> tablaItems = viewPagerItem.getTablaItems();
 
-        TablaAdapter tablaAdapter = new TablaAdapter(tablaItems);
+        String alimento = viewPagerItem.getAlimento(); // Obtén el nombre del alimento
+
+        TablaAdapter tablaAdapter = new TablaAdapter(tablaItems, alimento); // Pasa el alimento
         holder.recyclerView.setAdapter(tablaAdapter);
         holder.txtAlimento.setText(viewPagerItem.getAlimento());
     }
+
 
     @Override
     public int getItemCount() {
