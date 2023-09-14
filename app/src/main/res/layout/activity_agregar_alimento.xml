@@ -7,6 +7,7 @@
     tools:context=".AgregarAlimento">
 
      <LinearLayout
+        android:id="@+id/topLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/sansationbold"
-            android:text="@string/txtAgregarComida"
+            android:text="@string/txtSeleccionarComida"
             android:textAlignment="center"
             android:textColor="@color/colornombreapp"
             android:textSize="40sp" />
@@ -60,22 +61,38 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnRegresar"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/txtRegresar"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
     <Space
         android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topLinearLayout" />
+
+    <!-- Botón Regresar -->
+    <Button
+        android:id="@+id/btnRegresar"
+        android:layout_width="330dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/txtRegresar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/space"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textirbasededatos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/sansationbold"
+        android:foregroundGravity="bottom"
+        android:text="@string/btn_ir_basedeDatos"
+        android:textColor="@color/botones"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,16 +2,23 @@ package com.aproyectousco.valornutricionalalimentoscolombianos;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,12 +64,15 @@ public class AgregarAlimento extends AppCompatActivity {
     final double[] lipidos = {0.0};
     final double[] gsat = {0.0};
     final double[] sodio = {0.0};
-
+    private EditText txtpeso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_alimento);
+
+
+        TextView Irbasededatos = findViewById(R.id.textirbasededatos);
 
         mAuth = FirebaseAuth.getInstance();
         mRootReference = FirebaseDatabase.getInstance().getReference();
@@ -80,6 +90,32 @@ public class AgregarAlimento extends AppCompatActivity {
 
         // Asigna el adaptador al AutoCompleteTextView
         autoCompleteTextView.setAdapter(adapter);
+
+        // ...
+        txtpeso = findViewById(R.id.txtpeso);
+
+        // Agrega un Listener para el evento onFocusChange del EditText txtpeso
+        txtpeso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // El EditText ha obtenido el foco (se ha tocado)
+                    // Muestra un mensaje
+                    Toast.makeText(AgregarAlimento.this, "Agregue el peso y presione finalizar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        Irbasededatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.icbf.gov.co/system/files/tcac_web.pdf";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+
+            }
+        });
 
 
 

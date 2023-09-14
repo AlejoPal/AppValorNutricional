@@ -2,9 +2,11 @@ package com.aproyectousco.valornutricionalalimentoscolombianos;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class AgregarInfo extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class AgregarInfo extends AppCompatActivity {
         Button almuerzoButton = findViewById(R.id.btnAgregarAlmuerzo);
         Button cenaButton = findViewById(R.id.btnAgregarCena);
         Button historialButton = findViewById(R.id.btnInformacionGeneral);
+        TextView Irmanual = findViewById(R.id.textirmanual);
 
 
 
@@ -56,6 +59,17 @@ public class AgregarInfo extends AppCompatActivity {
                 intent.putExtra("Correo", Correo);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+
+        Irmanual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.google.com";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+
             }
         });
 

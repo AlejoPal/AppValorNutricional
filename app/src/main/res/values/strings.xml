@@ -9,6 +9,9 @@
     <string name="btn_calendario">Abrir Calendario</string>
     <string name="btn_ir_inicarsesion">¿Ya tienes cuenta? Inicia sesión</string>
     <string name="btn_ir_registrarse">¿No tienes cuenta? Registraste</string>
+    <string name="btn_ir_manual">Descarga el maual de usuario aqui</string>
+    <string name="btn_ir_basedeDatos">Consulta los alimentos registrados aqui</string>
+
 
     <string name="hintEmail">Email</string>
     <string name="hintContrasena">Contraseña</string>
@@ -22,11 +25,13 @@
     <string name="txtAgregarComida">Agregar Comida</string>
     <string name="txtseleccionfecha">Por favor seleccione una fecha </string>
     <string name="txtAgregar">Añadir</string>
-    <string name="txtRegresar">Volver</string>
+    <string name="txtRegresar">Finalizar</string>
     <string name="txtdesayuno">Desayuno</string>
     <string name="txtAlmuerzo">Almuerzo</string>
     <string name="txtCena">Cena</string>
     <string name="txtHistorial">Historial</string>
+    <string name="txtSeleccionarComida">Busca tu alimento...</string>
+    <string name="txtinstrucciones">Seleccione el horario de comida que va a agregar </string>
 
     <string name="VCarbohidratos">Carbohidratos(g)</string>
     <string name="VColesterol">Colesterol(g)</string>
