@@ -66,7 +66,7 @@ public class AgregarInfo extends AppCompatActivity {
         Irmanual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://www.dropbox.com/scl/fi/meukrlnuhpvsmzygrcglx/Manual-De-Usuario-QUIMO.pdf?rlkey=yxcezf2du4b3rwktgueclyhed&dl=0";
+                String url = "https://drive.google.com/file/d/1ZJO3HeFI8SRc9LaI_L02UrJxZR-XUQ-8/view?usp=sharing";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
 
