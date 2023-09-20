@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ValorNutricionalAlimentosColombianos</string>
-    <string name="app_nombre">MiNutriCol</string>
+    <string name="app_nombre">QUIMO</string>
 
 
     <string name="btn_inicarsesion">Iniciar sesion</string>
@@ -8,7 +8,7 @@
     <string name="btn_agregarComida">Agregar comida</string>
     <string name="btn_calendario">Abrir Calendario</string>
     <string name="btn_ir_inicarsesion">¿Ya tienes cuenta? Inicia sesión</string>
-    <string name="btn_ir_registrarse">¿No tienes cuenta? Registraste</string>
+    <string name="btn_ir_registrarse">¿No tienes cuenta? Regístraste</string>
     <string name="btn_ir_manual">Descarga el maual de usuario aqui</string>
     <string name="btn_ir_basedeDatos">Consulta los alimentos registrados aqui</string>
 
@@ -31,11 +31,11 @@
     <string name="txtCena">Cena</string>
     <string name="txtHistorial">Historial</string>
     <string name="txtSeleccionarComida">Busca tu alimento...</string>
-    <string name="txtinstrucciones">Seleccione el horario de comida que va a agregar </string>
+    <string name="txtinstrucciones">Seleccione la comida que va a agregar </string>
 
     <string name="VCarbohidratos">Carbohidratos(g)</string>
-    <string name="VColesterol">Colesterol(g)</string>
-    <string name="VEnergia">Energia(Kcal)</string>
+    <string name="VColesterol">Colesterol(mg)</string>
+    <string name="VEnergia">Energía(Kcal)</string>
     <string name="VLipidos">Lipidos(g)</string>
     <string name="VGsaturadas">Grasas saturadas(g)</string>
     <string name="VSodio">Sodio(mg)</string>

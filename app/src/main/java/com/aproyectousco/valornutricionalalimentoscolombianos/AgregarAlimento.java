@@ -288,8 +288,9 @@ public class AgregarAlimento extends AppCompatActivity {
                                     gsat[0] += gsatValue;
                                     sodio[0] += sodioValue;
 
+                                    String primerPalabra = autoCompleteText.split(" ")[0];
+                                    Toast.makeText(AgregarAlimento.this, primerPalabra + " agregado", Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(AgregarAlimento.this, "Informacion Guardada", Toast.LENGTH_SHORT).show();
                                     autoCompleteTextView.setText("");  // Borra el valor ingresado
                                     autoCompleteTextView.setHint("Buscar");  // Restaura el hint
                                     peso.setText("");
@@ -301,6 +302,7 @@ public class AgregarAlimento extends AppCompatActivity {
                             regresarButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+
                                     cargarDatosFirebaseI(fechaHoy, Correo, Alimento, MapaAlimentos, proteina[0], energia[0], carbohidratos[0], lipidos[0], sodio[0], gsat[0], colesterol[0]);
                                     Toast.makeText(AgregarAlimento.this, Alimento + " agregado", Toast.LENGTH_SHORT).show();
                                     volverAInformacionGeneral(Correo);

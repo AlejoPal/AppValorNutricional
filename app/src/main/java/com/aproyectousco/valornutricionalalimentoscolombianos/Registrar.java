@@ -91,13 +91,11 @@ public class Registrar extends AppCompatActivity {
         if (contrasenaText.equals(confirmarText)) {
             mAuth.createUserWithEmailAndPassword(correoText, contrasenaText).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 Date date = new Date();
-
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         mRootReference = FirebaseDatabase.getInstance().getReference();
-
                         // Obtener la fecha actual
                         SimpleDateFormat fechaC = new SimpleDateFormat("yyyyMMdd");
                         String sfecha = fechaC.format(date);
@@ -121,7 +119,7 @@ public class Registrar extends AppCompatActivity {
                         }, 200);
 
                     } else {
-                        Toast.makeText(Registrar.this, "Error en la autenticación", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Registrar.this, "Error creando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
